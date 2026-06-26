@@ -14,10 +14,10 @@
       --text-secondary: rgba(255,255,255,0.85);
       --text-body: rgba(255,255,255,0.7);
       --text-muted: rgba(255,255,255,0.55);
-      --text-dimmer: rgba(255,255,255,0.45);
-      --text-dim: rgba(255,255,255,0.35);
-      --text-very-dim: rgba(255,255,255,0.4);
-      --text-hint: rgba(255,255,255,0.5);
+      --text-dimmer: rgba(245,245,245,0.75);
+      --text-dim: rgba(245,245,245,0.65);
+      --text-very-dim: rgba(245,245,245,0.7);
+      --text-hint: rgba(245,245,245,0.6);
       --bg-nav: rgba(10,10,30,0.55);
       --border-nav: rgba(255,255,255,0.12);
       --border-divider: rgba(255,255,255,0.2);
@@ -232,6 +232,25 @@
       background-attachment: fixed;
       display: flex;
       flex-direction: column;
+    }
+
+    /* ---- 全局 Select 下拉选项样式（确保各主题下选项文字可见） ---- */
+    select {
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: var(--surface-d);
+      color: var(--text-primary);
+    }
+    /* 夜间模式：暗色选项背景 + 浅色文字 */
+    select option {
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      padding: 8px;
+    }
+    /* 护眼模式：浅色选项背景 + 深色文字 */
+    body.theme-eye-care select option {
+      background-color: #fef9f0;
+      color: #3d2e1f;
     }
 
     /* ---- 顶部导航栏 ---- */
@@ -594,6 +613,13 @@
     .search-input::placeholder { color: var(--text-dimmer); }
     .search-input:focus { border-color: var(--text-dimmer); }
 
+    /* 全局placeholder样式：更白更亮 */
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(240, 240, 240, 0.85) !important;
+      opacity: 1 !important;
+    }
+
     /* ---- 内容页面通用 ---- */
     .page-header { margin-bottom: 28px; }
     .page-title  { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
@@ -749,11 +775,49 @@
       color: var(--text-secondary);
     }
 
+    /* 诊断工具和生成器的输入框 */
+    #diagnosisInput,
+    #genTask,
+    #genContext,
+    #genFormat,
+    #genExample {
+      pointer-events: auto !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      cursor: text !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    #diagnosisInput:focus,
+    #genTask:focus,
+    #genContext:focus,
+    #genFormat:focus,
+    #genExample:focus {
+      outline: 2px solid rgba(100,160,255,0.5);
+      box-shadow: 0 0 8px rgba(100,160,255,0.2);
+    }
+
     /* 滚动条 */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--surface-h); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--surface-k); }
+
+    /* 多选标签芯片样式 */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .chip-btn {
+      display: inline-block; padding: 4px 10px; font-size: 11px;
+      border: 1px solid var(--border-table); border-radius: 14px;
+      background: var(--surface-a); color: var(--text-secondary);
+      cursor: pointer; transition: all 0.2s ease; user-select: none;
+    }
+    .chip-btn:hover { background: rgba(100,160,255,0.15); border-color: rgba(100,160,255,0.4); }
+    .chip-btn.selected {
+      background: rgba(100,160,255,0.25); border-color: rgba(100,160,255,0.5);
+      color: var(--text-primary); font-weight: 600;
+      box-shadow: 0 0 8px rgba(100,160,255,0.2);
+    }
   </style>
 </head>
 <body>
@@ -770,7 +834,7 @@
   <div class="nav-item active" onclick="showPage('home', this)">首页</div>
   <div class="nav-item" onclick="showPage('basic', this)">AI基础认知</div>
   <div class="nav-item" onclick="showPage('method', this)">AI工作方法</div>
-  <div class="nav-item" onclick="showPage('template', this)">Prompt/Skill模板库</div>
+  <div class="nav-item" onclick="showPage('template', this)">Prompt/Skill库</div>
   <div class="nav-item" onclick="showPage('safety', this)">AI使用风险与安全</div>
   
   <div class="topnav-utils">
@@ -810,8 +874,8 @@
             <div class="card-desc">Prompt、Skill、Project 与 AI 高效协作的方法论</div>
           </div>
           <div class="module-card" onclick="showPage('template', document.querySelectorAll('.nav-item')[3])">
-            <div class="card-title">Prompt 库</div>
-            <div class="card-desc">9大HR场景即用模板，可复用 Skill 资源一键获取</div>
+            <div class="card-title">Prompt/Skill库</div>
+            <div class="card-desc">常用场景即用模板，可复用 Skill 资源一键获取</div>
           </div>
           <div class="module-card" onclick="showPage('safety', document.querySelectorAll('.nav-item')[4])">
             <div class="card-title">风险安全</div>
@@ -1470,7 +1534,7 @@
         <div>
           <strong style="color: var(--text-secondary);">示例3：招聘文案</strong>
           <div class="prompt-example">
-你是一个会写招聘文案的营销人。帮我写一份招聘文案。<br><br>
+你是一个资深的业务经理或者HR。帮我写一份招聘文案。<br><br>
 <strong>岗位：</strong>产品经理<br>
 <strong>公司背景：</strong>AI创业公司，融了B轮，30人规模，产品是一个面向B端的AI工具<br>
 <strong>工作内容：</strong>从0到1建立产品的HR应用场景<br>
@@ -2596,16 +2660,17 @@
     </div>
   </div>
 
-  <!-- ===== Prompt/Skill 模板库 ===== -->
+  <!-- ===== Prompt/Skill库 ===== -->
   <div id="page-template" class="page">
     <div class="page-header">
-      <div class="page-title">📚 Prompt / Skill 模板库</div>
+      <div class="page-title">📚 Prompt / Skill库</div>
       <div class="page-sub">即学即用，直接复制到 AI 中开始工作</div>
     </div>
 
     <div class="tabs">
       <div class="tab-btn active" onclick="showTab('template','prompt',this)">📋 Prompt 模板库</div>
       <div class="tab-btn" onclick="showTab('template','skill',this)">📖 Skill 库</div>
+      <div class="tab-btn" onclick="showTab('template','tools',this)">🔍 Prompt诊断工具</div>
     </div>
 
         <div id="template-prompt" class="glass-box active">
@@ -2613,7 +2678,7 @@
       
       <!-- 搜索栏 -->
       <div style="margin-bottom: 20px;">
-        <input type="text" id="promptSearch" placeholder="🔍 输入关键词搜索（如"招聘"、"薪酬"、"面试"...）" 
+        <input type="text" id="promptSearch" placeholder="输入关键词搜索（如招聘、薪酬、面试...）" 
           style="width: 100%; padding: 12px 16px; border: 1px solid rgba(100,200,255,0.3); border-radius: 8px; 
           background: rgba(100,200,255,0.08); color: var(--text-primary); font-size: 13px; 
           font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', sans-serif;">
@@ -2678,6 +2743,33 @@ const promptTemplatesData = {
           "template": "你是善于沟通的团队负责人或HR，需要对有意向但还在犹豫的候选人进行保温跟进。\n\n【候选人信息】\n姓名：[候选人姓名]\n应聘职位：[职位名称]\n当前进度：[已面试/已发Offer/面试中]\n候选人状态：[犹豫中/对标其他offer/需要时间考虑]\n\n【公司优势】\n[列出3-5个核心优势]\n\n【候选人关心点】\n[根据面试中了解到的，列出候选人关心的点]\n\n请生成一份保温沟通，策略是：\n1. 展现真诚和热情\n2. 重点强调公司的适配点\n3. 解答可能的疑虑\n4. 给出明确的follow-up时间\n5. 保持pressure但不aggressive",
           "exampleInput": "姓名：李四\n应聘职位：市场部负责人\n当前进度：已发Offer\n候选人状态：在对标其他offer\n\n公司优势：\n- B轮融资1000万\n- 行业领先的产品\n- 市场部预算500万\n- CEO重视\n\n候选人关心点：\n- 团队规模和资源\n- 发展空间\n- 与CEO的协作方式",
           "exampleOutput": "【微信 / 邮件保温】\n\n李四，你好：\n\n距离我们上次面试已经一周了，很想听到你的近况！\n\n🎯 为什么我们认为你很适合这个职位：\n\n1. **资源充足** — 市场部500万年度预算，你有充分的空间实现想法。\n\n2. **CEO亲自参与** — 我们CEO对市场策略有深度思考，不会让市场部沦为\"打杂部门\"。\n\n3. **增长阶段** — 现在用户量100万，目标年底500万。这是产品的黄金期。\n\n4. **团队自主性强** — 我们扁平化管理，权力下沉。你的建议会被采纳。\n\n💡 针对你关心的几点：\n\n**Q: 其他offer薪酬更高？**\nA: 我们offer已经是行业top 20%。但更重要的是，你在我们这里有更大的话语权和成长空间。\n\n**Q: 不确定CEO的靠谱程度？**\nA: 建议你再约一次CEO单独聊聊。很多人在对话后就消除了疑虑。\n\n🤝 下一步：\n\n无论你最终选择如何，我们都尊重。但我们希望能在**1月20日前**得到你的确认。\n\n期待你的回复！"
+        },
+        {
+          "id": "phoneScreen",
+          "name": "📞 电话初筛",
+          "desc": "与候选人进行电话初筛沟通（问题、话术、应对策略）",
+          "scenario": "🎯 使用场景\n• 收到大量简历，需要快速筛选有效候选人\n• 初步确认候选人的求职意向和基本条件\n• 评估候选人的沟通能力和职业态度\n• 在正式面试前过滤不匹配的候选人",
+          "template": "你是一位资深HR面试官，需要与候选人进行初步电话筛选。请根据以下信息，生成完整的电话初筛方案。\n\n【职位信息】\n职位名称：[职位名称]\n职位级别：[初级/中级/高级]\n核心技能要求：[列出3-5个核心技能]\n\n【筛选重点】\n[选择筛选侧重点：动机匹配/技能初筛/薪资预期/稳定性评估]\n\n【候选人来源】\n[主动投递/猎头推荐/内部推荐/社招渠道]\n\n请提供以下内容：\n1. 开场白和自我介绍话术（30秒，自然亲切）\n2. 5-8个核心筛选问题（每个问题标注考察目的和优秀回答特征）\n3. 关键信号的识别指引（哪些回答说明适合推进，哪些需要终止）\n4. 结束话术（推进到下一轮 vs 礼貌婉拒）\n\n【语气要求】\n- 专业但亲切，避免审问感\n- 自然流畅，像真实对话而非脚本\n- 适度追问，不咄咄逼人",
+          "exampleInput": "职位名称：产品经理\n职位级别：中级\n核心技能要求：需求分析、用户研究、数据驱动、跨部门协作\n\n筛选重点：动机匹配和技能初筛\n候选人来源：猎头推荐",
+          "exampleOutput": "【产品经理 - 电话初筛方案】\n\n📞 开场白（30秒）\n\"您好，我是XX公司的HR负责人[你的名字]。感谢您对我们产品经理职位的关注，我想花10-15分钟简单聊聊，了解一下您的情况和期望，看看是否有进一步沟通的机会。方便吗？\"\n\n---\n\n📋 核心筛选问题（8个）\n\n**Q1: 请简单介绍一下您目前的工作和主要职责？**\n考察目的：确认简历真实性、沟通表达力\n优秀回答特征：条理清晰、用数据量化成果\n⚠️ 不良信号：模糊笼统、与简历不符\n\n**Q2: 您为什么在考虑新的机会？**\n考察目的：求职动机（主动求变 vs 被动逃避）\n优秀回答特征：有明确的职业规划、追求成长\n⚠️ 不良信号：只抱怨现状、无明确方向\n\n**Q3: 您做过最满意的一个产品功能或项目是什么？**\n考察目的：实际产品经验深度\n优秀回答特征：能讲清需求来源→方案→上线→效果闭环\n⚠️ 不良信号：只做执行不做决策\n\n**Q4: 您平时如何做需求优先级排序？**\n考察目的：产品方法论是否成熟\n优秀回答特征：提到ROI分析、用户价值评估、资源约束\n\n**Q5: 您期望的薪资范围大概是多少？**\n考察目的：薪资预期是否匹配预算\n追问策略：先问范围，再问灵活性\n\n**Q6: 您目前看了其他机会吗？进展如何？**\n考察目的：竞争态势、紧迫程度\n\n**Q7: 如果加入我们，您最期待解决什么问题或承担什么挑战？**\n考察目的：对公司/职位的理解和热情\n优秀回答特征：有思考、有针对性\n\n**Q8: 您最快什么时候可以入职？**\n考察目的：时间线匹配度\n\n---\n\n🚦 关键信号识别\n\n✅ 推进信号：表达清晰、动机积极、有闭环思维、薪资弹性合理\n❌ 终止信号：简历造假、只抱怨不规划、无产品方法论、薪资远超预算\n\n---\n\n👋 结束话术\n\n**推进到下一轮：**\n\"和您聊完，我觉得您的经验和我们的需求很匹配。我会安排技术面试，具体时间明天邮件通知您。感谢您的时间！\"\n\n**礼貌婉拒：**\n\"感谢您的时间，您的背景有一些亮点。不过这个职位需要更XX方面的经验，暂时不太匹配。如果未来有更合适的机会，我会再联系您。\"",
+        },
+        {
+          "id": "interviewFeedback",
+          "name": "💡 面试建设性反馈",
+          "desc": "为候选人提供面试表现的详细反馈和改进建议",
+          "scenario": "🎯 使用场景\n• 希望给未录用候选人提供有价值的面试反馈，而非简单的拒绝通知\n• 候选人主动请求面试表现评估\n• 企业倡导透明招聘文化，愿意分享面试观察\n• 需要撰写正式的面试评估报告供内部决策参考",
+          "template": "你是一位有经验的HR经理和面试官，需要为候选人提供面试表现的建设性反馈。\n\n【候选人信息】\n姓名：[候选人姓名]\n应聘职位：[职位名称]\n\n【面试表现评估】\n表现亮点：[列出候选人做得好的方面]\n表现不足：[列出候选人可以改进的方面]\n\n【反馈类型】\n[未录用-建设性反馈 / 已录用-改进建议 / 内部评估报告]\n\n【语气风格】\n[温和鼓励 / 直接专业 / 平衡客观]\n\n请生成一份面试反馈，包含：\n1. 开场肯定（1-2句真诚的正面评价）\n2. 具体亮点分析（引用面试中的具体表现，用事实支撑）\n3. 可改进之处（用\"可以考虑加强\"而非\"你很差\"的措辞）\n4. 实用建议（给出具体可执行的改进方向和资源推荐）\n5. 结尾鼓励（无论录用与否，都给予正面期许）\n\n【语气原则】\n- 真诚而非套话，具体而非空泛\n- 用\"可以\"而非\"应该\"，用\"建议\"而非\"批评\"\n- 反馈要有事实支撑，避免主观判断\n- 即使是拒绝，也要让对方感到被尊重",
+          "exampleInput": "候选人姓名：王五\n应聘职位：高级产品经理\n\n表现亮点：\n- 需求分析能力强，案例讲得很清楚\n- 跨部门协作经验丰富\n- 数据驱动意识好\n\n表现不足：\n- 战略思维不够深入，缺乏从0到1的经验\n- 面试中有些紧张，表达不够流畅\n- 对行业趋势的了解偏表面\n\n反馈类型：未录用-建设性反馈\n语气风格：温和鼓励",
+          "exampleOutput": "【面试反馈 — 王五 / 高级产品经理】\n\n王五您好：\n\n感谢您花时间参加我们高级产品经理职位的面试。和您的交流很有收获，以下是我们的观察和一些建议。\n\n---\n\n✨ 您的亮点\n\n1. **需求分析能力扎实**\n您在讲述\"XX项目\"时，从用户痛点出发、到方案验证、再到上线效果，逻辑链条完整。这说明您具备成熟的产品闭环思维。\n\n2. **跨部门协作经验丰富**\n您提到的与技术、运营、市场的协作案例，展示了你在多方利益平衡上的能力，这对产品经理非常重要。\n\n3. **数据驱动意识强**\n您在评估功能优先级时能引用具体指标（如转化率、留存率），说明你有用数据说话的习惯。\n\n---\n\n💡 可以考虑加强的方向\n\n1. **战略思维的深度**\n本次职位需要从0到1定义产品方向的能力。目前您更多是在已有框架内优化，可以考虑主动参与产品方向讨论、阅读战略分析类内容（推荐：《Product Strategy》by Cagan）来拓展这一维度。\n\n2. **面试表达的节奏感**\n面试中有些环节您显得稍紧张，导致部分回答不够流畅。建议在面试前用5分钟做\"电梯演讲\"练习——1分钟自我介绍+1分钟最佳案例，会让表达更从容。\n\n3. **行业趋势的系统性跟踪**\n对行业动态的了解可以从\"偶尔关注\"升级为\"定期整理\"——建议每周花30分钟做行业笔记，建立自己的趋势判断框架。\n\n---\n\n🙏 结尾\n\n虽然这次职位暂不匹配，但您的产品功底是扎实的。我相信继续在战略深度和表达力上打磨，您很快会找到更适合的舞台。\n\n如果您希望进一步交流，欢迎随时联系我。\n\n祝一切顺利！\nHR团队"
+        },
+        {
+          "id": "offerNegotiation",
+          "name": "🤝 Offer谈判策略",
+          "desc": "与候选人协商薪资/福利条件的谈判话术和策略",
+          "scenario": "🎯 使用场景\n• 候选人对初步Offer提出异议，需要谈判应对\n• 候选人拿别家Offer来对标，需要价值重申\n• 薪资/福利/期权/职位级别等条件需要协商\n• 需要制定完整的Offer谈判策略而非单封邮件",
+          "template": "你是一位有丰富Offer谈判经验的HR总监。请根据以下信息，帮我制定Offer谈判策略和话术。\n\n【职位信息】\n职位名称：[职位名称]\n\n【薪资信息】\n公司Offer薪资：[Offer的薪资数字/范围]\n候选人期望薪资：[候选人提出的期望数字]\n\n【谈判焦点】\n[薪资差距 / 福利补充 / 期权替代 / 职位级别 / 工作地点 / 其他]\n\n【语气风格】\n[专业亲切 / 直接高效 / 温和引导 / 策略灵活]\n\n请提供以下内容：\n1. 开场话术（如何切入谈判，设定积极基调）\n2. 分场景应对脚本：\n   - 候选人嫌薪资低 → 应对话术 + 可让步范围提示\n   - 候选人要求更多福利/期权 → 替代方案话术\n   - 候选人拿别家Offer对标 → 价值重申话术\n3. 谈判节奏控制建议（何时推进、何时等待、何时让步）\n4. 底线提醒（不可逾越的边界）\n\n【原则】\n- 不透露薪资预算上限\n- 不做无法兑现的承诺\n- 谈判记录留档（合规要求）\n- 避免制造虚假紧迫感\n- 保持尊重和专业，不让候选人感到被压价",
+          "exampleInput": "职位名称：技术总监\n\n公司Offer薪资：年薪60万\n候选人期望薪资：年薪80万\n\n谈判焦点：薪资差距较大，候选人拿到另一家75万的Offer\n\n语气风格：策略灵活",
+          "exampleOutput": "【技术总监 - Offer谈判策略】\n\n🎯 开场话术\n\n\"感谢您坦诚地分享了您的期望。我们对您的加入非常期待，也想找到一个双方都满意的方案。让我先分享一下我们的思路——\"\n\n设定基调：真诚、合作、不回避差距、主动表达重视。\n\n---\n\n📊 分场景应对脚本\n\n**场景1：候选人嫌薪资低（60→80差距）**\n\n话术：\n\"我理解您对薪资的期望。60万和80万之间确实有差距。让我分享几个考量：\n1. 我们的基础薪资是60万，但我们还有年度绩效奖金（通常15-20%，即9-12万），加上期权价值，实际总包大约在75-80万区间。\n2. 这个职位在公司的战略权重很高——您直接汇报CEO，技术决策权完全自主。\n3. 如果第一年绩效达标，第二年薪资我们有明确的调整机制。\"\n\n💡 可让步范围提示：\n- 基础薪资：可上调至65万（上限）\n- 签约奖金：可一次性补5-10万\n- 期权：可增加0.5%比例\n\n**场景2：候选人要求更多福利/期权**\n\n话术：\n\"如果基础薪资的调整空间有限，我们可以在以下几个方面做补充：\n- 期权比例从1%提到1.5%（按目前估值相当于XX万）\n- 灵活办公（每周2天远程）\n- 学习基金（每年5万培训预算）\n- 配备1名技术助手\n这些组合起来的价值，可能比单纯涨薪更有长远收益。\"\n\n**场景3：候选人拿别家75万Offer对标**\n\n话术：\n\"恭喜您拿到另一个offer，这说明市场对您的认可。我想帮您做一个客观对比：\n\n| 维度 | 我们 | 另一家 |\n|------|------|--------|\n| 总包 | ~75-80万（含奖金期权） | 75万（纯薪资） |\n| 决策权 | 直接汇报CEO，完全自主 | 汇报VP，需层层审批 |\n| 团队规模 | 10人，您来搭建 | 30人，已有结构 |\n| 发展空间 | 从0到1，定义方向 | 在已有框架内优化 |\n\n更重要的是——您在这里不是\"加入一个团队\"，而是\"定义一个方向\"。这种影响力的价值，不是5万薪差距能衡量的。\"\n\n---\n\n⏱️ 谈判节奏控制\n\n- 第1轮：亮总包价值，不急于让步（等对方反应）\n- 第2轮：针对性补充（期权/福利），制造\"组合价值\"感\n- 第3轮：如果差距仍大，小幅上调基础薪资至65万 + 签约奖金\n- 底线前停：明确告知\"这是我们能给出的最优方案\"\n\n---\n\n🚫 底线提醒\n\n- 基础薪资上限：65万（不可再高）\n- 期权上限：1.5%（不可再增）\n- 不承诺\"一年后一定涨到80万\"（用\"调整机制\"而非\"承诺\"）\n- 不透露公司薪资预算上限是70万\n- 不制造\"明天必须决定\"的虚假紧迫感"
         }
       ]
     },
@@ -2934,7 +3026,7 @@ function selectTask(taskId) {
     '<div style="background:var(--code-bg);padding:16px;border-radius:8px;margin-bottom:12px;max-height:320px;overflow-y:auto;border:1px solid var(--code-border);">' +
     '<pre style="font-size:13.5px;color:var(--code-text);margin:0;white-space:pre-wrap;word-wrap:break-word;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;letter-spacing:0.3px;">' + escapeHtml(task.template) + '</pre>' +
     '</div>' +
-    '<button onclick="copyToClipboard(\'' + taskId + '\')" style="padding:9px 20px;background:var(--success-c);border:1px solid var(--success-d);border-radius:6px;color:var(--text-white);cursor:pointer;font-weight:bold;font-size:13px;">\u{1F4CB} \u590D\u5236 Prompt</button>' +
+    '<button style="padding:9px 20px;background:var(--success-c);border:1px solid var(--success-d);border-radius:6px;color:var(--text-white);cursor:pointer;font-weight:bold;font-size:13px;" class="prompt-copy-btn" onclick="copyTemplatePrompt(this)" data-text="' + task.template.replace(/"/g, '&quot;') + '">\u{1F4CB} \u590D\u5236 Prompt</button>' +
     '</div>';
 
   // 添加示例输入
@@ -2967,21 +3059,94 @@ function selectTask(taskId) {
   templateSection.style.display = 'block';
 }
 
-function copyToClipboard(taskId) {
-  var task = tasksMap[taskId];
-  navigator.clipboard.writeText(task.template).then(function() {
-    alert('\u2705 Prompt \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01');
-  }).catch(function(err) {
-    var textarea = document.createElement('textarea');
-    textarea.value = task.template;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    alert('\u2705 Prompt \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01');
-  });
+function copyTemplatePrompt(btn) {
+  const text = btn.getAttribute('data-text');
+  if (!text) { alert('❌ 错误：无法找到Prompt内容'); return; }
+  const success = syncCopyToClipboard(text);
+  const orig = btn.textContent;
+  if (success) {
+    btn.textContent = '✓ 已复制';
+    btn.style.background = 'rgba(100,200,100,0.3)';
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.style.background = 'var(--success-c)';
+    }, 2000);
+  } else {
+    alert('⚠️ 复制失败，请手动选中内容后 Ctrl+C 复制');
+  }
+}
+
+// 通用复制函数：创建真实可见元素来复制（兼容 file:// 协议）
+function copyText(text, successMsg, failMsg) {
+  // 在页面中央创建临时 textarea
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:2px;height:2px;opacity:0.01;border:none;outline:none;resize:none;z-index:9999;';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { ta.setSelectionRange(0, 99999); } catch(e) {}
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (ok) { alert(successMsg); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() { alert(successMsg); }).catch(function() { alert(failMsg); });
+    return;
+  }
+  alert(failMsg);
+}
+
+// 兼容旧代码的别名（Skill 库 / Prompt 诊断工具里调用）
+function syncCopyToClipboard(text) {
+  text = String(text);
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  // 放在视口中心、几乎不可见但确实是真实渲染的，Chrome 才会放行 execCommand
+  ta.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:2px;height:2px;opacity:0.01;border:none;outline:none;resize:none;z-index:9999;pointer-events:none;';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { ta.setSelectionRange(0, 99999); } catch(e) {}
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (ok) return true;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(function(){});
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// 复制Skill内容
+function copySkill(btn) {
+  var skillBlock = btn.closest('.skill-block');
+  var textarea = skillBlock.querySelector('.skill-textarea');
+  var content = textarea.value.trim();
+  
+  if (!content || content === '请在此粘贴 Skill 内容或网页链接') {
+    alert('⚠️ Skill内容为空，请先粘贴内容');
+    return;
+  }
+  
+  // 同步执行，兼容 file:// 协议
+  var success = syncCopyToClipboard(content);
+  var originalText = btn.textContent;
+  if (success) {
+    btn.textContent = '✓ 已复制';
+    btn.style.background = 'rgba(100,200,100,0.3)';
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = '';
+    }, 2000);
+  } else {
+    alert('⚠️ 复制失败，请手动选中内容后 Ctrl+C 复制');
+  }
 }
 
 // 搜索功能
@@ -3266,16 +3431,1103 @@ document.addEventListener('DOMContentLoaded', function() {
         window.copySkill = function(btn) {
           var textarea = btn.closest('.skill-block').querySelector('.skill-textarea');
           var text = textarea.value;
-          navigator.clipboard.writeText(text).then(function() {
-            var orig = btn.textContent;
+          // 使用同步方式，兼容 file:// 协议
+          var success = typeof syncCopyToClipboard === 'function'
+            ? syncCopyToClipboard(text)
+            : (function(t) {
+                try {
+                  var ta = document.createElement('textarea');
+                  ta.value = t;
+                  ta.style.position = 'fixed';
+                  ta.style.left = '-9999px';
+                  ta.style.top = '0';
+                  document.body.appendChild(ta);
+                  ta.focus(); ta.select();
+                  ta.setSelectionRange(0, ta.value.length);
+                  var ok = document.execCommand('copy');
+                  document.body.removeChild(ta);
+                  return ok;
+                } catch(e) { return false; }
+              })(text);
+          var orig = btn.textContent;
+          if (success) {
             btn.textContent = '\u2714 已复制';
             btn.classList.add('copied');
             setTimeout(function() {
               btn.textContent = orig;
               btn.classList.remove('copied');
             }, 2000);
-          });
+          } else {
+            alert('⚠️ 复制失败，请手动选中内容后 Ctrl+C 复制');
+          }
         };
+      </script>
+    </div>
+
+    <!-- Prompt诊断工具 -->
+    <div id="template-tools" class="glass-box">
+      <h3>🔍 Prompt诊断工具</h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
+        
+        <!-- 左侧：诊断工具 -->
+        <div>
+          <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+            <h4 style="color: var(--text-primary); margin-bottom: 12px;">📋 Prompt质量诊断</h4>
+            <p style="font-size: 12px; color: var(--text-body); margin-bottom: 16px;">粘贴你的Prompt，系统会自动检查质量并给出建议</p>
+            
+            <textarea id="diagnosisInput" placeholder="把你的Prompt粘贴在这里...&#10;&#10;例如：&quot;帮我写个招聘文案&quot;" 
+              style="width: 100%; height: 200px; padding: 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 8px; color: var(--text-primary); font-size: 12px; font-family: monospace; resize: vertical; box-sizing: border-box; pointer-events: auto; -webkit-appearance: none; appearance: none;" onfocus="this.select()"></textarea>
+            
+            <button onclick="diagnosePrompt()" style="width: 100%; margin-top: 12px; padding: 10px; background: rgba(100,160,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(100,160,255,0.3); border-radius: 8px; color: var(--text-primary); font-size: 13px; cursor: pointer; transition: all 0.2s ease;" 
+              onmouseover="this.style.background='rgba(100,160,255,0.25)'; this.style.boxShadow='0 4px 12px rgba(100,160,255,0.2)'" onmouseout="this.style.background='rgba(100,160,255,0.15)'; this.style.boxShadow='none'">>
+              🔍 开始诊断
+            </button>
+            
+            <div id="diagnosisResult" style="margin-top: 16px; display: none;"></div>
+          </div>
+        </div>
+        
+        <!-- 右侧：Prompt生成器 -->
+        <div>
+          <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+            <h4 style="color: var(--text-primary); margin-bottom: 12px;">✨ 智能Prompt生成器</h4>
+            <p style="font-size: 12px; color: var(--text-body); margin-bottom: 16px;">选择任务类型，自动生成专业Prompt</p>
+            
+            <div id="generatorForm" style="display: flex; flex-direction: column; gap: 12px;">
+              <!-- 第一步：选择任务类型 -->
+              <div>
+                <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">📌 选择任务类型 *</label>
+                <select id="taskType" onchange="updateTaskFields(this.value)" style="width: 100%; padding: 10px 12px; background: var(--surface-a); border: 1px solid var(--accent-e); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; pointer-events: auto; cursor: pointer;">
+                  <option value="">-- 请选择任务类型 --</option>
+                  <option value="email">✉️ 写邮件/消息</option>
+                  <option value="recruit">🎤 招聘相关</option>
+                  <option value="assess">📊 评估/分析</option>
+                  <option value="plan">📋 制定方案/计划</option>
+                  <option value="write">✍️ 内容撰写</option>
+                  <option value="decision">🤔 辅助决策</option>
+                  <option value="other">🔧 其他</option>
+                </select>
+              </div>
+              
+              <!-- 第二步：动态表单字段（根据任务类型显示） -->
+              <div id="dynamicFields" style="display: none;">
+              
+                <!-- 邮件相关 -->
+                <div id="field-email" class="task-field" style="display: none;">
+                  <div style="background: rgba(100,160,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(100,160,255,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;"><strong>📝 邮件信息</strong></div>
+                    <div style="font-size: 11px; color: var(--text-hint);">收件人角色、邮件目的、语气风格等</div>
+                  </div>
+                  <input type="text" class="gen-field" id="genEmailTo" placeholder="收件人角色/身份（如：HR经理、候选人）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <input type="text" class="gen-field" id="genEmailPurpose" placeholder="邮件的目的/核心信息" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <select class="gen-field" id="genEmailTone" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 语气 --</option>
+                    <option value="formal">正式专业</option>
+                    <option value="friendly">友好温暖</option>
+                    <option value="urgent">紧急严肃</option>
+                    <option value="casual">轻松随意</option>
+                  </select>
+                </div>
+                
+                <!-- 招聘相关 -->
+                <div id="field-recruit" class="task-field" style="display: none;">
+                  <div style="background: rgba(100,160,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(100,160,255,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;"><strong>🎯 招聘信息</strong></div>
+                    <div style="font-size: 11px; color: var(--text-hint);">选择场景 → 设置语气 → 填写信息 → 生成专业Prompt</div>
+                  </div>
+                  <!-- 二级场景选择 -->
+                  <select class="gen-field" id="genRecruitSubType" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 选择招聘场景 --</option>
+                    <option value="jd">📝 写 JD</option>
+                    <option value="phone">📞 电话初筛</option>
+                    <option value="feedback">💡 面试建设性反馈</option>
+                    <option value="offer">🤝 Offer谈判策略</option>
+                    <option value="interview">❓ 设计面试问题</option>
+                    <option value="communication">💬 候选人沟通</option>
+                    <option value="warmup">🎯 保温话术</option>
+                  </select>
+                  <!-- 共用语气选择 -->
+                  <select class="gen-field" id="genRecruitTone" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 语气风格 --</option>
+                    <option value="professional">🤝 专业亲切</option>
+                    <option value="direct">⚡ 直接高效</option>
+                    <option value="gentle">🌸 温和引导</option>
+                    <option value="strategic">🎯 策略灵活</option>
+                  </select>
+                  <!-- 共用字段（所有场景都需要） -->
+                  <input type="text" class="gen-field" id="genRecruitRole" placeholder="职位名称（如：Senior Python Engineer）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <input type="text" class="gen-field" id="genRecruitLevel" placeholder="职位级别（如：高级、中级、初级）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <input type="text" class="gen-field" id="genRecruitSkills" placeholder="核心技能要求（逗号分隔）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+
+                  <!-- ===== 场景专属字段：电话初筛 ===== -->
+                  <div id="recruit-sub-phone" class="recruit-sub-field" style="display: none;">
+                    <div style="border-top: 1px solid var(--border-table); margin: 8px 0 8px 0; padding-top: 6px;">
+                      <div style="font-size: 11px; color: var(--accent-b); margin-bottom: 6px;"><strong>📞 电话初筛专属</strong></div>
+                    </div>
+                    <select class="gen-field" id="genPhoneSource" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                      <option value="">-- 候选人来源 --</option>
+                      <option value="active">主动投递</option>
+                      <option value="headhunter">猎头推荐</option>
+                      <option value="internal">内部推荐</option>
+                      <option value="social">社招渠道</option>
+                    </select>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">筛选重点（可多选）</div>
+                    <div class="chip-group" id="genPhoneFocusGroup">
+                      <span class="chip-btn" data-value="motivation" onclick="toggleChip(this)">动机匹配</span>
+                      <span class="chip-btn" data-value="skill" onclick="toggleChip(this)">技能初筛</span>
+                      <span class="chip-btn" data-value="salary" onclick="toggleChip(this)">薪资预期</span>
+                      <span class="chip-btn" data-value="stability" onclick="toggleChip(this)">稳定性评估</span>
+                    </div>
+                  </div>
+
+                  <!-- ===== 场景专属字段：面试建设性反馈 ===== -->
+                  <div id="recruit-sub-feedback" class="recruit-sub-field" style="display: none;">
+                    <div style="border-top: 1px solid var(--border-table); margin: 8px 0 8px 0; padding-top: 6px;">
+                      <div style="font-size: 11px; color: var(--accent-b); margin-bottom: 6px;"><strong>💡 面试反馈专属</strong></div>
+                    </div>
+                    <input type="text" class="gen-field" id="genFeedbackName" placeholder="候选人姓名" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <textarea class="gen-field" id="genFeedbackHighlights" placeholder="面试表现亮点（如：需求分析能力强、表达清晰）" style="width: 100%; height: 60px; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px; resize: vertical;"></textarea>
+                    <textarea class="gen-field" id="genFeedbackWeakness" placeholder="面试表现不足（如：战略思维不够深入、表达稍紧张）" style="width: 100%; height: 60px; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px; resize: vertical;"></textarea>
+                    <select class="gen-field" id="genFeedbackResult" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                      <option value="">-- 反馈类型 --</option>
+                      <option value="rejected">未录用 - 建设性反馈</option>
+                      <option value="hired">已录用 - 改进建议</option>
+                      <option value="report">内部评估报告</option>
+                    </select>
+                  </div>
+
+                  <!-- ===== 场景专属字段：Offer谈判 ===== -->
+                  <div id="recruit-sub-offer" class="recruit-sub-field" style="display: none;">
+                    <div style="border-top: 1px solid var(--border-table); margin: 8px 0 8px 0; padding-top: 6px;">
+                      <div style="font-size: 11px; color: var(--accent-b); margin-bottom: 6px;"><strong>🤝 Offer谈判专属</strong></div>
+                    </div>
+                    <input type="text" class="gen-field" id="genOfferSalary" placeholder="公司Offer薪资（如：年薪60万 / 月薪25k）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <input type="text" class="gen-field" id="genCandidateExpect" placeholder="候选人期望薪资（如：年薪80万 / 月薪35k）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">谈判焦点（可多选）</div>
+                    <div class="chip-group" id="genNegotiationFocusGroup">
+                      <span class="chip-btn" data-value="salary" onclick="toggleChip(this)">薪资差距</span>
+                      <span class="chip-btn" data-value="benefits" onclick="toggleChip(this)">福利补充</span>
+                      <span class="chip-btn" data-value="equity" onclick="toggleChip(this)">期权替代</span>
+                      <span class="chip-btn" data-value="title" onclick="toggleChip(this)">职位级别</span>
+                      <span class="chip-btn" data-value="location" onclick="toggleChip(this)">工作地点</span>
+                      <span class="chip-btn" data-value="competing" onclick="toggleChip(this)">竞品Offer对标</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 评估分析 -->
+                <div id="field-assess" class="task-field" style="display: none;">
+                  <div style="background: rgba(100,160,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(100,160,255,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;"><strong>📊 评估标准</strong></div>
+                    <div style="font-size: 11px; color: var(--text-hint);">评估对象、维度、输出格式等</div>
+                  </div>
+                  <input type="text" class="gen-field" id="genAssessTarget" placeholder="评估对象（如：候选人、员工、方案）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <textarea class="gen-field" id="genAssessDimensions" placeholder="评估维度（如：技能匹配、文化适配、成长潜力）" style="width: 100%; height: 70px; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px; resize: vertical;"></textarea>
+                  <select class="gen-field" id="genAssessOutput" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 输出格式 --</option>
+                    <option value="score">评分制（1-5分）</option>
+                    <option value="report">详细报告</option>
+                    <option value="table">表格汇总</option>
+                    <option value="text">文字分析</option>
+                  </select>
+                  <select class="gen-field" id="genAssessTone" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 语气风格 --</option>
+                    <option value="objective">📊 客观中立</option>
+                    <option value="constructive">💡 温和建设性</option>
+                    <option value="frank">⚡ 直接坦率</option>
+                  </select>
+                </div>
+                
+                <!-- 制定方案 -->
+                <div id="field-plan" class="task-field" style="display: none;">
+                  <div style="background: rgba(100,160,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(100,160,255,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;"><strong>📋 方案信息</strong></div>
+                    <div style="font-size: 11px; color: var(--text-hint);">目标、约束、关键要素等</div>
+                  </div>
+                  <input type="text" class="gen-field" id="genPlanGoal" placeholder="目标（如：降低招聘成本、提高转化率）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <textarea class="gen-field" id="genPlanConstraints" placeholder="约束/限制（如：预算有限、时间紧张）" style="width: 100%; height: 70px; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px; resize: vertical;"></textarea>
+                </div>
+                
+                <!-- 内容撰写 -->
+                <div id="field-write" class="task-field" style="display: none;">
+                  <div style="background: rgba(100,160,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(100,160,255,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;"><strong>✍️ 内容要求</strong></div>
+                    <div style="font-size: 11px; color: var(--text-hint);">对象、风格、长度、重点等</div>
+                  </div>
+                  <input type="text" class="gen-field" id="genWriteType" placeholder="内容类型（如：博客、文案、报告）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <input type="text" class="gen-field" id="genWriteAudience" placeholder="目标受众（如：年轻用户、管理层）" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                  <select class="gen-field" id="genWriteLength" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 长度 --</option>
+                    <option value="short">简短（50-100字）</option>
+                    <option value="medium">中等（200-400字）</option>
+                    <option value="long">较长（500-1000字）</option>
+                  </select>
+                  <select class="gen-field" id="genWriteTone" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 8px;">
+                    <option value="">-- 语气风格 --</option>
+                    <option value="rigorous">📝 严谨专业</option>
+                    <option value="lively">🌊 轻松活泼</option>
+                    <option value="warm">💌 温暖亲切</option>
+                    <option value="deep">🔬 深度分析</option>
+                  </select>
+                </div>
+                
+                <!-- 通用字段：公司背景和参考例子 -->
+                <div style="border-top: 1px solid var(--border-divider); padding-top: 12px; margin-top: 12px;">
+                  <div>
+                    <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">📌 公司/组织背景（可选）</label>
+                    <input type="text" id="genCompanyContext" placeholder="如：50人创业公司、B2B SaaS、科技行业" style="width: 100%; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; margin-bottom: 12px;">
+                  </div>
+                  <div>
+                    <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">📌 参考例子/特殊要求（可选）</label>
+                    <textarea id="genReference" placeholder="粘贴一个你期望的风格例子，或说明特殊要求..." style="width: 100%; height: 80px; padding: 8px 12px; background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 6px; color: var(--text-primary); font-size: 12px; box-sizing: border-box; resize: vertical;"></textarea>
+                  </div>
+                </div>
+              </div>
+              
+              <button onclick="generateSmartPrompt()" style="width: 100%; padding: 10px; background: rgba(80,200,120,0.2); border: 1px solid rgba(80,200,120,0.4); border-radius: 8px; color: var(--text-primary); font-size: 13px; cursor: pointer; transition: all 0.2s ease; margin-top: 8px;" 
+                onmouseover="this.style.background='rgba(80,200,120,0.3)'" onmouseout="this.style.background='rgba(80,200,120,0.2)'">
+                ✨ 生成Prompt
+              </button>
+            </div>
+            
+            <div id="generatorResult" style="margin-top: 16px; display: none;"></div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <script>
+        // 确保输入框初始为空
+        document.addEventListener('DOMContentLoaded', function() {
+          var diagnosisInput = document.getElementById('diagnosisInput');
+          if (diagnosisInput) {
+            diagnosisInput.value = '';
+          }
+          var genExample = document.getElementById('genExample');
+          if (genExample) {
+            genExample.value = '';
+          }
+          var genTask = document.getElementById('genTask');
+          if (genTask) {
+            genTask.value = '';
+          }
+          var genContext = document.getElementById('genContext');
+          if (genContext) {
+            genContext.value = '';
+          }
+        });
+        
+        // Prompt诊断工具
+        function diagnosePrompt() {
+          const input = document.getElementById('diagnosisInput').value.trim();
+          const resultDiv = document.getElementById('diagnosisResult');
+          
+          if (!input) {
+            resultDiv.innerHTML = '<div style="background: rgba(200,100,100,0.1); border: 1px solid rgba(200,100,100,0.3); border-radius: 8px; padding: 12px; color: var(--text-body); font-size: 12px;">请先输入Prompt内容</div>';
+            resultDiv.style.display = 'block';
+            return;
+          }
+          
+          const diagnoses = checkPromptQuality(input);
+          const score = calculateScore(diagnoses);
+          
+          let html = '<div style="background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 8px; padding: 14px;">';
+          html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">';
+          html += '<h5 style="margin: 0; color: var(--text-primary);">诊断结果</h5>';
+          html += '<div style="font-size: 18px; font-weight: bold; color: ' + (score >= 80 ? 'rgba(100,200,100,0.8)' : score >= 60 ? 'rgba(255,180,50,0.8)' : 'rgba(200,100,100,0.8)') + ';">' + score + '分</div>';
+          html += '</div>';
+          
+          // 显示检查项
+          diagnoses.forEach(d => {
+            const icon = d.pass ? '✅' : '⚠️';
+            const color = d.pass ? 'rgba(100,200,100,0.6)' : 'rgba(255,180,50,0.6)';
+            html += '<div style="margin-bottom: 10px; padding: 10px; background: rgba(100,150,255,0.05); border-left: 3px solid ' + color + '; border-radius: 4px;">';
+            html += '<div style="font-size: 12px; color: var(--text-secondary);"><strong>' + icon + ' ' + d.name + '</strong></div>';
+            html += '<div style="font-size: 11px; color: var(--text-body); margin-top: 4px;">' + d.message + '</div>';
+            html += '</div>';
+          });
+          
+          html += '<div style="margin-top: 12px; padding: 10px; background: var(--success-accent-bg); border: 1px solid var(--success-accent-border); border-radius: 6px;">';
+          html += '<div style="font-size: 11px; color: var(--text-body);"><strong>💡 改进建议：</strong><br>';
+          html += diagnoses.filter(d => !d.pass).map(d => d.suggestion).join('<br>');
+          html += '</div></div>';
+          
+          html += '</div>';
+          resultDiv.innerHTML = html;
+          resultDiv.style.display = 'block';
+        }
+        
+        function checkPromptQuality(prompt) {
+          const checks = [];
+          
+          // 1. 是否有清晰的任务
+          checks.push({
+            name: '任务清晰度',
+            pass: prompt.length > 20,
+            message: prompt.length > 20 ? '✓ Prompt描述相对清晰' : '✗ 太简短，可能让AI理解不了',
+            suggestion: '至少写20字以上，明确说明你要AI做什么'
+          });
+          
+          // 2. 是否有背景信息
+          const hasContext = prompt.includes('背景') || prompt.includes('公司') || prompt.includes('目标') || prompt.includes('场景');
+          checks.push({
+            name: '背景信息',
+            pass: hasContext || prompt.length > 100,
+            message: hasContext || prompt.length > 100 ? '✓ 有相关背景信息' : '✗ 缺少背景，AI可能乱猜',
+            suggestion: '添加你的公司规模、行业、目标人群等背景信息'
+          });
+          
+          // 3. 是否有输出格式要求
+          const hasFormat = prompt.includes('格式') || prompt.includes('表格') || prompt.includes('要点') || prompt.includes('输出') || prompt.includes('展示');
+          checks.push({
+            name: '输出格式',
+            pass: hasFormat,
+            message: hasFormat ? '✓ 明确了输出格式' : '✗ 没说要什么格式，容易拿到不满意的回答',
+            suggestion: '指定输出格式：表格、列表、邮件、代码等'
+          });
+          
+          // 4. 是否有具体例子
+          const hasExample = prompt.includes('例') || prompt.includes('示例') || prompt.includes('比如') || prompt.includes('例如');
+          checks.push({
+            name: '具体例子',
+            pass: hasExample,
+            message: hasExample ? '✓ 提供了参考例子' : '✗ 没有例子，AI容易偏离预期',
+            suggestion: '提供一个你期望的例子或参考，AI会按这个风格调整'
+          });
+          
+          // 5. 是否有约束/限制
+          const hasConstraint = prompt.includes('不要') || prompt.includes('避免') || prompt.includes('限制') || prompt.includes('不超过') || prompt.includes('只');
+          checks.push({
+            name: '约束条件',
+            pass: hasConstraint,
+            message: hasConstraint ? '✓ 有明确的约束' : '⚠️ 没有约束也可以，但有约束会更精准',
+            suggestion: '告诉AI什么不要做，避免虚词、套话、过长等'
+          });
+          
+          // 6. 是否过长
+          checks.push({
+            name: '长度合理性',
+            pass: prompt.length < 1000,
+            message: prompt.length < 1000 ? '✓ 长度适中' : '⚠️ 信息太多，建议简化',
+            suggestion: '如果超过500字，试试拆分成多个Prompt或突出核心信息'
+          });
+          
+          return checks;
+        }
+        
+        function calculateScore(diagnoses) {
+          const passCount = diagnoses.filter(d => d.pass).length;
+          return Math.round((passCount / diagnoses.length) * 100);
+        }
+        
+        // ===== 多选标签芯片辅助函数 =====
+        function toggleChip(el) {
+          el.classList.toggle('selected');
+        }
+        function getSelectedChips(groupId) {
+          const group = document.getElementById(groupId);
+          if (!group) return [];
+          return Array.from(group.querySelectorAll('.chip-btn.selected'))
+            .map(chip => chip.getAttribute('data-value'));
+        }
+        
+        // 任务类型选择改变时，显示对应的字段
+        function updateTaskFields(taskType) {
+          const dynamicFields = document.getElementById('dynamicFields');
+          const allFields = document.querySelectorAll('.task-field');
+          
+          if (!taskType) {
+            dynamicFields.style.display = 'none';
+            return;
+          }
+          
+          dynamicFields.style.display = 'block';
+          allFields.forEach(f => f.style.display = 'none');
+          
+          const field = document.getElementById('field-' + taskType);
+          if (field) {
+            field.style.display = 'block';
+          }
+          
+          // 招聘类型：监听二级场景选择
+          if (taskType === 'recruit') {
+            const subTypeSelect = document.getElementById('genRecruitSubType');
+            if (subTypeSelect) {
+              // 初始化子字段状态
+              updateRecruitSubFields(subTypeSelect.value);
+              // 移除旧监听器（避免重复绑定）
+              subTypeSelect.onchange = function() {
+                updateRecruitSubFields(this.value);
+              };
+            }
+          }
+        }
+        
+        // 招聘场景二级字段切换
+        function updateRecruitSubFields(subType) {
+          const allSubFields = document.querySelectorAll('.recruit-sub-field');
+          allSubFields.forEach(f => f.style.display = 'none');
+          
+          if (subType) {
+            const subField = document.getElementById('recruit-sub-' + subType);
+            if (subField) {
+              subField.style.display = 'block';
+            }
+          }
+        }
+        
+        // 智能生成Prompt
+        function generateSmartPrompt() {
+          const taskType = document.getElementById('taskType').value;
+          const resultDiv = document.getElementById('generatorResult');
+          
+          if (!taskType) {
+            resultDiv.innerHTML = '<div style="background: rgba(200,100,100,0.1); border: 1px solid rgba(200,100,100,0.3); border-radius: 8px; padding: 12px; color: var(--text-body); font-size: 12px;">请选择任务类型</div>';
+            resultDiv.style.display = 'block';
+            return;
+          }
+          
+          // 获取通用字段
+          const company = document.getElementById('genCompanyContext').value.trim();
+          const reference = document.getElementById('genReference').value.trim();
+          
+          let prompt = '';
+          
+          // 根据任务类型生成专业Prompt
+          switch(taskType) {
+            case 'email':
+              prompt = buildEmailPrompt();
+              break;
+            case 'recruit':
+              prompt = buildRecruitPrompt();
+              break;
+            case 'assess':
+              prompt = buildAssessPrompt();
+              break;
+            case 'plan':
+              prompt = buildPlanPrompt();
+              break;
+            case 'write':
+              prompt = buildWritePrompt();
+              break;
+            case 'decision':
+              prompt = buildDecisionPrompt();
+              break;
+            case 'other':
+              prompt = buildOtherPrompt();
+              break;
+          }
+          
+          // 添加公司背景
+          if (company) {
+            prompt += '\n\n【公司背景】\n' + company;
+          }
+          
+          // 添加参考例子
+          if (reference) {
+            prompt += '\n\n【参考风格】\n' + reference;
+          }
+          
+          // 显示结果
+          let html = '<div style="background: var(--surface-a); border: 1px solid var(--border-table); border-radius: 8px; padding: 14px;">';
+          html += '<div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>📝 生成的Prompt：</strong></div>';
+          html += '<div style="background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 12px; font-size: 11px; color: var(--code-text); font-family: monospace; line-height: 1.6; white-space: pre-wrap; word-break: break-word; max-height: 350px; overflow-y: auto; margin-bottom: 12px;">' + escapeHtml(prompt) + '</div>';
+          html += '<button onclick="copySmartPrompt(this)" data-text="' + prompt.replace(/"/g, '&quot;') + '" style="width: 100%; padding: 8px; background: rgba(100,160,255,0.2); border: 1px solid rgba(100,160,255,0.4); border-radius: 6px; color: var(--text-primary); font-size: 12px; cursor: pointer;">📋 复制Prompt</button>';
+          html += '</div>';
+          resultDiv.innerHTML = html;
+          resultDiv.style.display = 'block';
+        }
+        
+        // 各类型的Prompt构建函数
+        function buildEmailPrompt() {
+          const to = document.getElementById('genEmailTo').value.trim();
+          const purpose = document.getElementById('genEmailPurpose').value.trim();
+          const tone = document.getElementById('genEmailTone').value;
+          
+          const toneMap = {
+            'formal': '正式专业，避免过于随意',
+            'friendly': '友好温暖，拉近距离',
+            'urgent': '紧急严肃，强调重要性',
+            'casual': '轻松随意，建立亲密感'
+          };
+          
+          return `你是一位会写邮件的职业人士。请根据以下要求，帮我起草一封邮件。
+
+【收件人信息】
+身份/角色：${to || '收件人'}
+
+【邮件目的】
+核心信息：${purpose || '（请输入邮件的主要目的）'}
+
+【邮件风格】
+语气：${toneMap[tone] || '自然得体'}
+长度：控制在100-300字之间，简洁不冗长
+结构：开头→主体→CTA（Call to Action）
+
+【邮件要求】
+1. 开头：亲切但不过度
+2. 中间：阐述重点，可加1-2个论点支撑
+3. 结尾：清晰的下一步行动或期待回复
+4. 避免：企业套话、过度谦卑、信息冗余
+
+请直接给出邮件正文，不需要解释或补充。`;
+        }
+        
+        function buildRecruitPrompt() {
+          const subType = document.getElementById('genRecruitSubType').value;
+          const tone = document.getElementById('genRecruitTone').value;
+          const role = document.getElementById('genRecruitRole').value.trim();
+          const level = document.getElementById('genRecruitLevel').value.trim();
+          const skills = document.getElementById('genRecruitSkills').value.trim();
+          
+          // 共用语气 toneMap
+          const toneMap = {
+            'professional': {
+              'jd': '专业且吸引人，突出公司亮点和成长机会',
+              'phone': '自然流畅，像真实对话而非审问式脚本。多用开放式问题，让候选人多说。',
+              'feedback': '温和鼓励，用"建议"而非"批评"的措辞，让对方感到被尊重。',
+              'offer': '坚定但有温度，不压价也不随意让步。展现诚意同时保持专业底线。',
+              'interview': '专业严谨，问题表述清晰、考察目的明确。',
+              'communication': 'warm和professional，友好但清晰。',
+              'warmup': '真诚热情，不aggressive但有适度pressure。'
+            },
+            'direct': {
+              'jd': '简洁直接，信息明确不冗长',
+              'phone': '快速切入核心，不寒暄。直问直答，每个问题明确考察目的。',
+              'feedback': '直言不讳，指出问题但不伤人。用事实说话。',
+              'offer': '清晰亮底牌，快速推进节奏。不绕弯子。',
+              'interview': '直接精准，追问不回避。',
+              'communication': '简洁明了，核心信息优先。',
+              'warmup': '直击痛点，快速回应疑虑。'
+            },
+            'gentle': {
+              'jd': '温和亲切，让候选人感受到公司的人文关怀',
+              'phone': '多用引导式提问，让候选人感到被尊重。避免审问感，更像一场职业交流。',
+              'feedback': '多用正面措辞包装改进建议，避免负面标签。"可以考虑加强"而非"你很差"。',
+              'offer': '先听诉求再回应，柔性推进共识。给候选人充分思考空间。',
+              'interview': '亲切温和，让候选人放松表达。',
+              'communication': '贴心周到，注意细节。',
+              'warmup': '温和关心，让候选人感受到诚意。'
+            },
+            'strategic': {
+              'jd': '突出核心卖点，信息分层呈现，引导候选人关注关键亮点',
+              'phone': '根据候选人回答灵活调整提问方向。表现突出则深入追问；不合适则礼貌收束。',
+              'feedback': '根据候选人情绪选择措辞力度。对自信者可更直接，对敏感者则更温和。',
+              'offer': '分步试探，灵活组合薪资/福利/期权方案。不一次性亮出全部筹码。',
+              'interview': '根据候选人回答灵活追问，挖掘深层信息。',
+              'communication': '策略性安排沟通节奏和内容。',
+              'warmup': '有策略地强调适配点，针对性回应疑虑。'
+            }
+          };
+          
+          // 获取当前场景的语气描述
+          const toneDesc = toneMap[tone] ? toneMap[tone][subType || 'jd'] : '';
+          
+          switch(subType) {
+            case 'phone':     return buildPhoneScreenPrompt(role, level, skills, toneDesc);
+            case 'feedback':  return buildFeedbackPrompt(role, level, skills, toneDesc);
+            case 'offer':     return buildOfferPrompt(role, level, skills, toneDesc);
+            case 'jd':        return buildJDPrompt(role, level, skills, toneDesc);
+            case 'interview': return buildInterviewPrompt(role, level, skills, toneDesc);
+            case 'communication': return buildCommPrompt(role, level, skills, toneDesc);
+            case 'warmup':    return buildWarmupPrompt(role, level, skills, toneDesc);
+            default:          return buildGenericRecruitPrompt(role, level, skills, toneDesc);
+          }
+        }
+        
+        // ===== 招聘子函数：电话初筛 =====
+        function buildPhoneScreenPrompt(role, level, skills, toneDesc) {
+          const source = document.getElementById('genPhoneSource');
+          const selectedFocus = getSelectedChips('genPhoneFocusGroup');
+          const sourceText = source ? source.options[source.selectedIndex].text : '';
+          
+          const sourceMap = {
+            'active': '候选人主动投递',
+            'headhunter': '猎头推荐',
+            'internal': '内部推荐',
+            'social': '社招渠道获取'
+          };
+          const focusMap = {
+            'motivation': '求职动机匹配（确认候选人为何求职、与职位方向是否一致）',
+            'skill': '技能初步筛选（快速确认核心技能是否满足基本要求）',
+            'salary': '薪资预期摸底（了解候选人期望薪资是否在预算范围内）',
+            'stability': '稳定性评估（确认候选人的工作稳定性和长期意向）'
+          };
+          
+          const focusDesc = selectedFocus.length > 0
+            ? selectedFocus.map(f => focusMap[f]).join('\n- ')
+            : '综合评估（动机、技能、薪资、稳定性）';
+          
+          return `你是一位资深HR面试官，需要与候选人进行初步电话筛选。请根据以下信息，生成完整的电话初筛方案。
+
+【职位信息】
+职位名称：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能要求：${skills || '（请输入关键技能）'}
+
+【筛选重点】
+${focusDesc}
+
+【候选人来源】
+${sourceMap[source?.value] || '未指定'}
+
+【语气风格】
+${toneDesc || '专业亲切，自然流畅'}
+
+请提供以下内容：
+1. 开场白和自我介绍话术（30秒，自然亲切）
+2. 5-8个核心筛选问题（每个问题标注考察目的和优秀回答特征）
+3. 关键信号的识别指引（哪些回答说明适合推进，哪些需要终止）
+4. 结束话术（推进到下一轮 vs 礼貌婉拒）
+
+请直接输出完整的电话初筛方案。`;
+        }
+        
+        // ===== 招聘子函数：面试建设性反馈 =====
+        function buildFeedbackPrompt(role, level, skills, toneDesc) {
+          const name = document.getElementById('genFeedbackName').value.trim();
+          const highlights = document.getElementById('genFeedbackHighlights').value.trim();
+          const weakness = document.getElementById('genFeedbackWeakness').value.trim();
+          const resultSelect = document.getElementById('genFeedbackResult');
+          const resultText = resultSelect ? resultSelect.options[resultSelect.selectedIndex].text : '';
+          
+          const resultMap = {
+            'rejected': '未录用 - 建设性反馈（为未录用候选人提供有价值的改进建议）',
+            'hired': '已录用 - 改进建议（为已入职人员指出可加强的方向）',
+            'report': '内部评估报告（供内部决策参考，不发给候选人）'
+          };
+          
+          return `你是一位有经验的HR经理和面试官，需要为候选人提供面试表现的建设性反馈。
+
+【候选人信息】
+姓名：${name || '（请输入候选人姓名）'}
+应聘职位：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+
+【面试表现评估】
+表现亮点：${highlights || '（请列出候选人做得好的方面）'}
+表现不足：${weakness || '（请列出候选人可以改进的方面）'}
+
+【反馈类型】
+${resultMap[document.getElementById('genFeedbackResult')?.value] || '未录用 - 建设性反馈'}
+
+【语气风格】
+${toneDesc || '温和鼓励，真诚具体'}
+
+请生成一份面试反馈，包含：
+1. 开场肯定（1-2句真诚的正面评价）
+2. 具体亮点分析（引用面试中的具体表现，用事实支撑）
+3. 可改进之处（用"可以考虑加强"而非"你很差"的措辞）
+4. 实用建议（给出具体可执行的改进方向和资源推荐）
+5. 结尾鼓励（无论录用与否，都给予正面期许）
+
+【语气原则】
+- 真诚而非套话，具体而非空泛
+- 用"可以"而非"应该"，用"建议"而非"批评"
+- 反馈要有事实支撑，避免主观判断
+- 即使是拒绝，也要让对方感到被尊重
+
+请直接输出面试反馈内容。`;
+        }
+        
+        // ===== 招聘子函数：Offer谈判策略 =====
+        function buildOfferPrompt(role, level, skills, toneDesc) {
+          const offerSalary = document.getElementById('genOfferSalary').value.trim();
+          const candidateExpect = document.getElementById('genCandidateExpect').value.trim();
+          const selectedFocus = getSelectedChips('genNegotiationFocusGroup');
+          
+          const focusMap = {
+            'salary': '薪资差距（Offer和候选人期望之间的数字差距）',
+            'benefits': '福利补充（用福利弥补薪资差距）',
+            'equity': '期权替代（用期权/股权替代部分薪资）',
+            'title': '职位级别（通过更高的职位级别增加吸引力）',
+            'location': '工作地点（灵活办公/远程选项作为谈判筹码）',
+            'competing': '有竞品Offer对标（候选人拿着其他公司Offer来对标）'
+          };
+          
+          const focusDesc = selectedFocus.length > 0
+            ? selectedFocus.map(f => '- ' + focusMap[f]).join('\n')
+            : '- 薪资差距（默认核心焦点）';
+          
+          return `你是一位有丰富Offer谈判经验的HR总监。请根据以下信息，帮我制定Offer谈判策略和话术。
+
+【职位信息】
+职位名称：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能要求：${skills || '（请输入关键技能）'}
+
+【薪资信息】
+公司Offer薪资：${offerSalary || '（请输入公司Offer薪资）'}
+候选人期望薪资：${candidateExpect || '（请输入候选人期望薪资）'}
+
+【谈判焦点】
+${focusDesc}
+
+【语气风格】
+${toneDesc || '专业亲切，坚定但有温度'}
+
+请提供以下内容：
+1. 开场话术（如何切入谈判，设定积极基调）
+2. 分场景应对脚本：
+   - 候选人嫌薪资低 → 应对话术 + 可让步范围提示
+   - 候选人要求更多福利/期权 → 替代方案话术
+   - 候选人拿别家Offer对标 → 价值重申话术
+3. 谈判节奏控制建议（何时推进、何时等待、何时让步）
+4. 底线提醒（不可逾越的边界）
+
+【原则】
+- 不透露薪资预算上限
+- 不做无法兑现的承诺
+- 谈判记录留档（合规要求）
+- 避免制造虚假紧迫感
+- 保持尊重和专业，不让候选人感到被压价
+
+请直接输出谈判策略和话术。`;
+        }
+        
+        // ===== 招聘子函数：JD =====
+        function buildJDPrompt(role, level, skills, toneDesc) {
+          return `你是一位资深HR，根据以下职位信息，生成一份吸引人的JD（职位描述）。
+
+【职位信息】
+职位名称：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能要求：${skills || '（请输入关键技能）'}
+
+【语气风格】
+${toneDesc || '专业且吸引人'}
+
+请生成一份专业、吸引人的JD，包含：
+1. 引人入胜的职位简介（1-2句）
+2. 详细的职责描述（用bullet points）
+3. 清晰的任职要求（必需 vs 加分）
+4. 公司卖点和成长机会
+5. 申请流程和联系方式
+
+请直接输出JD。`;
+        }
+        
+        // ===== 招聘子函数：面试问题 =====
+        function buildInterviewPrompt(role, level, skills, toneDesc) {
+          return `你是一个资深面试官，为以下职位设计结构化面试问题。
+
+【职位信息】
+职位名称：${role || '（请输入职位名称）'}
+级别：${level || '中级'}
+核心技能：${skills || '（请输入3-5个核心技能）'}
+
+【语气风格】
+${toneDesc || '专业严谨，问题表述清晰'}
+
+请设计10个面试问题，包括：
+1. 技能考察问题（3个）
+2. 行为问题（3个）
+3. 情景/案例问题（2个）
+4. 文化匹配问题（2个）
+
+每个问题需要包含：
+- 问题原文
+- 考察重点
+- 优秀答案的特征
+- 追问方向
+
+请直接输出面试问题库。`;
+        }
+        
+        // ===== 招聘子函数：候选人沟通 =====
+        function buildCommPrompt(role, level, skills, toneDesc) {
+          return `你是团队负责人或资深HR，需要给候选人发送沟通消息。
+
+【候选人信息】
+应聘职位：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能：${skills || '（请输入关键技能）'}
+
+【沟通类型】请在"参考风格"或"特殊要求"中指定：面试邀请/发Offer/拒绝通知/Offer跟进/入职确认
+
+【语气风格】
+${toneDesc || 'warm和professional'}
+
+请生成一份候选人沟通消息，确保：
+1. 清晰表达核心信息
+2. 语气友好、尊重候选人
+3. 包含下一步行动
+4. 便于快速回复
+
+请直接输出消息内容。`;
+        }
+        
+        // ===== 招聘子函数：保温话术 =====
+        function buildWarmupPrompt(role, level, skills, toneDesc) {
+          return `你是善于沟通的团队负责人或HR，需要对有意向但还在犹豫的候选人进行保温跟进。
+
+【候选人信息】
+应聘职位：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能：${skills || '（请输入关键技能）'}
+
+【语气风格】
+${toneDesc || '真诚热情，适度pressure但不aggressive'}
+
+请生成一份保温沟通，策略是：
+1. 展现真诚和热情
+2. 重点强调公司的适配点
+3. 解答可能的疑虑
+4. 给出明确的follow-up时间
+5. 保持pressure但不aggressive
+
+请直接输出保温话术。`;
+        }
+        
+        // ===== 招聘兜底：未选场景 =====
+        function buildGenericRecruitPrompt(role, level, skills, toneDesc) {
+          return `你是一位有10年招聘经验的HR专家。请根据以下信息，帮我制定招聘策略或相关内容。
+
+【职位信息】
+职位名称：${role || '（请输入职位名称）'}
+职位级别：${level || '中级'}
+核心技能要求：${skills || '（请输入关键技能）'}
+
+【语气风格】
+${toneDesc || '专业亲切'}
+
+【输出要求】
+根据上述信息，提供以下其中之一：
+1. 如需要JD：生成吸引力强的职位描述
+2. 如需要面试题：设计3-5个结构化面试问题
+3. 如需要评估标准：列出评估候选人的核心维度
+
+【质量要求】
+- 内容具体可执行，避免模糊表述
+- 贴近实际HR工作，不过于学术化
+- 考虑不同职位级别的差异
+
+请直接输出结果。`;
+        }
+        
+        function buildAssessPrompt() {
+          const target = document.getElementById('genAssessTarget').value.trim();
+          const dimensions = document.getElementById('genAssessDimensions').value.trim();
+          const output = document.getElementById('genAssessOutput').value;
+          const tone = document.getElementById('genAssessTone').value;
+          
+          const outputMap = {
+            'score': '用1-5分制评分，每个维度详细说明得分理由',
+            'report': '详细的文字分析报告，包含优势和改进空间',
+            'table': '用表格展示各维度评估结果，清晰易读',
+            'text': '用自然语言段落描述，逻辑清晰'
+          };
+          
+          const toneMap = {
+            'objective': '客观中立，基于事实和数据说话，避免主观判断。用"数据显示"而非"我认为"。',
+            'constructive': '温和建设性，先肯定优势再指出不足，用"可以进一步优化"而非"做得不好"。给出具体改进方向。',
+            'frank': '直接坦率，不回避问题，直言优劣势。用事实说话但不加修饰。适合内部快速决策场景。'
+          };
+          
+          return `你是一位专业的评估顾问。请根据以下标准，对${target}进行评估。
+
+【评估对象】
+${target || '（请输入评估对象）'}
+
+【评估维度】
+${dimensions || '（请输入评估维度）'}
+
+【输出格式】
+${outputMap[output] || '结构化评估'}
+
+【语气风格】
+${toneMap[tone] || '客观中立'}
+
+【评估原则】
+1. 基于事实，避免主观臆断
+2. 指出优势和不足，平衡客观
+3. 给出改进建议
+4. 结论明确，易于理解
+
+请根据上述要求给出评估。`;
+        }
+        
+        function buildPlanPrompt() {
+          const goal = document.getElementById('genPlanGoal').value.trim();
+          const constraints = document.getElementById('genPlanConstraints').value.trim();
+          
+          return `你是一位战略规划专家。请根据以下信息，帮我制定可行方案。
+
+【目标】
+${goal || '（请输入要达成的目标）'}
+
+【约束条件】
+${constraints || '（请输入时间、预算、人力等限制）'}
+
+【方案要求】
+1. 可行性强：考虑现实约束，给出切实可行的方案
+2. 有步骤：分阶段执行，明确优先级
+3. 有指标：每个阶段的成功标准是什么
+4. 有风险：列出可能的风险和应对措施
+
+【输出格式】
+- 方案简介（1句话总结）
+- 执行步骤（3-5个关键步骤）
+- 成功指标（如何衡量成功）
+- 潜在风险与应对
+
+请直接给出方案。`;
+        }
+        
+        function buildWritePrompt() {
+          const type = document.getElementById('genWriteType').value.trim();
+          const audience = document.getElementById('genWriteAudience').value.trim();
+          const length = document.getElementById('genWriteLength').value;
+          const tone = document.getElementById('genWriteTone').value;
+          
+          const lengthMap = {
+            'short': '50-100字',
+            'medium': '200-400字',
+            'long': '500-1000字'
+          };
+          
+          const toneMap = {
+            'rigorous': '严谨专业，用词精准，逻辑严密。适合正式报告、行业分析、政策文件。',
+            'lively': '轻松活泼，有节奏感和画面感。适合社交媒体、品牌文案、用户沟通。',
+            'warm': '温暖亲切，有人情味和共鸣感。适合内部信件、员工关怀、培训内容。',
+            'deep': '深度分析，有洞察和思考深度。适合战略文档、研究报告、行业评论。'
+          };
+          
+          return `你是一位专业的内容创作者。请根据以下要求，为我撰写内容。
+
+【内容信息】
+内容类型：${type || '内容'}
+目标受众：${audience || '（请输入目标受众）'}
+长度要求：${lengthMap[length] || '中等长度'}
+
+【语气风格】
+${toneMap[tone] || '自然得体'}
+
+【内容要求】
+1. 吸引力：开篇能吸引目标受众注意
+2. 清晰度：逻辑清晰，避免冗长
+3. 可读性：段落分明，易于扫读
+4. 专业性：内容专业但不生硬
+
+【避免】
+- 虚夸或夸大其词
+- 生僻词汇或过度修饰
+- 重复或冗余信息
+
+请直接给出内容，不需要过多解释。`;
+        }
+        
+        function buildDecisionPrompt() {
+          return `你是一位商业顾问。请帮助我分析这个决策。
+
+【决策事项】
+（请在参考例子部分详细描述你面临的决策）
+
+【分析框架】
+1. 现状分析：当前情况是什么？
+2. 选项列举：有哪些可选方案？
+3. 优劣对比：各方案的优势和劣势
+4. 风险评估：可能的风险和应对
+5. 建议：基于上述分析的建议
+
+【输出要求】
+- 客观理性，不主观臆断
+- 列出关键信息帮助决策
+- 给出明确的决策建议
+- 说明决策依据
+
+请进行分析。`;
+        }
+        
+        function buildOtherPrompt() {
+          return `请根据我在"参考例子"中详细描述的需求，为我生成相应的Prompt。
+
+我的具体需求见下方的参考例子/特殊要求部分。`;
+        }
+        
+        // 复制函数
+        function copySmartPrompt(btn) {
+          const text = btn.getAttribute('data-text');
+          navigator.clipboard.writeText(text)
+            .then(() => {
+              btn.textContent = '✓ 已复制';
+              btn.style.background = 'rgba(100,200,100,0.3)';
+              setTimeout(() => {
+                btn.textContent = '📋 复制Prompt';
+                btn.style.background = 'rgba(100,160,255,0.2)';
+              }, 2000);
+            })
+            .catch(() => {
+              fallbackPromptCopy(text, btn);
+            });
+        }
+        
+        function fallbackPromptCopy(text, btn) {
+          try {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            btn.textContent = '✓ 已复制';
+            btn.style.background = 'rgba(100,200,100,0.3)';
+            setTimeout(() => {
+              btn.textContent = '📋 复制Prompt';
+              btn.style.background = 'rgba(100,160,255,0.2)';
+            }, 2000);
+          } catch(err) {
+            alert('复制失败，请手动复制');
+          }
+        }
+        
+        function copyGenPrompt(btn) {
+          const text = btn.getAttribute('data-text');
+          // 同步复制，兼容 file:// 协议
+          const success = typeof syncCopyToClipboard === 'function'
+            ? syncCopyToClipboard(text)
+            : (function(t) {
+                try {
+                  var ta = document.createElement('textarea');
+                  ta.value = t;
+                  ta.style.position = 'fixed';
+                  ta.style.left = '-9999px';
+                  ta.style.top = '0';
+                  document.body.appendChild(ta);
+                  ta.focus(); ta.select();
+                  ta.setSelectionRange(0, ta.value.length);
+                  var ok = document.execCommand('copy');
+                  document.body.removeChild(ta);
+                  return ok;
+                } catch(e) { return false; }
+              })(text);
+          const orig = btn.textContent;
+          if (success) {
+            btn.textContent = '✓ 已复制';
+            btn.style.background = 'rgba(100,200,100,0.2)';
+            setTimeout(() => {
+              btn.textContent = orig;
+              btn.style.background = 'rgba(100,160,255,0.2)';
+            }, 2000);
+          } else {
+            alert('⚠️ 复制失败，请手动选中内容后 Ctrl+C 复制');
+          }
+        }
+        
+        function escapeHtml(text) {
+          const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+          };
+          return text.replace(/[&<>"']/g, m => map[m]);
+        }
       </script>
     </div>
   </div>
