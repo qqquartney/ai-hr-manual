@@ -1027,7 +1027,7 @@
   <div class="topnav-brand" style="cursor:pointer;" onclick="showPage('home')">AI Learning Hub
   </div>
   <div class="topnav-divider"></div>
-  <div class="nav-item active" onclick="showPage('basic', this)">AI基础认知</div>
+  <div class="nav-item" onclick="showPage('basic', this)">AI基础认知</div>
   <div class="nav-item" onclick="showPage('method', this)">AI工作方法</div>
   <div class="nav-item" onclick="showPage('template', this)">Prompt/Skill库</div>
   <div class="nav-item" onclick="showPage('safety', this)">AI使用风险与安全</div>
@@ -1036,6 +1036,9 @@
     <div class="search-container">
       <input type="text" class="search-input" id="searchInput" placeholder="搜索内容...">
       <button class="search-clear-btn" id="searchClearBtn" title="清除搜索">✕</button>
+    
+
+
     </div>
   </div>
 </div>
@@ -1140,8 +1143,28 @@
           color: var(--text-body);
           line-height: 1.7;
         }
+        .concept-section-title {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--text-white);
+          margin: 28px 0 4px 0;
+          padding-bottom: 10px;
+          border-bottom: 2px solid var(--accent-i);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .concept-section-title:first-of-type {
+          margin-top: 0;
+        }
+        .concept-section-sub {
+          font-size: 12px;
+          color: var(--text-body2);
+          font-weight: 400;
+        }
       </style>
 
+      <div class="concept-section-title">🧠 核心概念 <span class="concept-section-sub">先理解这些——AI 的"语言"和"机制"</span></div>
       <div class="concept-grid">
         <div class="concept-card">
           <div class="concept-num">01</div>
@@ -1159,7 +1182,7 @@
           <div class="concept-num">03</div>
           <div class="concept-title">Context</div>
           <div class="concept-sub">上下文 · AI的工作记忆</div>
-          <div class="concept-desc">AI当前能够看到的信息，即工作记忆，有上限。很多时候，Context的重要性通常高于Prompt。没有Context，AI几乎无法得到有效分析。</div>
+          <div class="concept-desc">AI当前能够看到的信息，即工作记忆。上下文窗口（Context Window）决定了AI一次能处理的信息上限——超出窗口上限的内容会被AI遗忘。很多时候，给足Context比精修Prompt更关键。</div>
         </div>
         <div class="concept-card">
           <div class="concept-num">04</div>
@@ -1199,36 +1222,76 @@
         </div>
         <div class="concept-card">
           <div class="concept-num">10</div>
+          <div class="concept-title">Hallucination</div>
+          <div class="concept-sub">幻觉 · 警惕AI的"自信谎言"</div>
+          <div class="concept-desc">AI有时会自信地编造不存在的事实、引用或数据。这不是AI在有意"撒谎"，而是生成模型基于概率预测的特性。入门第一课：永远核实AI的关键输出，尤其在专业领域。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">11</div>
+          <div class="concept-title">Fine-tuning</div>
+          <div class="concept-sub">微调 · 给AI补"专业课"</div>
+          <div class="concept-desc">在通用模型基础上，用特定领域数据进一步训练，让AI更懂你的业务。与RAG的核心区别：微调是"内化知识"变聪明，RAG是"查阅资料"找答案，两者可互补使用。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">12</div>
+          <div class="concept-title">API</div>
+          <div class="concept-sub">应用程序接口 · AI集成的基础</div>
+          <div class="concept-desc">Application Programming Interface。让不同软件之间互相通信的标准接口。MCP、Agent、各类AI工具都通过API连接外部系统，是理解"AI如何融入现有软件"的基础。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">13</div>
+          <div class="concept-title">Multi-modal</div>
+          <div class="concept-sub">多模态 · AI的"五官"</div>
+          <div class="concept-desc">AI能够同时处理文字、图片、音频、视频等多种信息形式。上传截图让AI分析、用语音对话、生成图片等都是多模态能力。现代AI早已不只是"文字聊天机器人"。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">14</div>
+          <div class="concept-title">Reasoning Model</div>
+          <div class="concept-sub">推理模型 · "深思熟虑"型AI</div>
+          <div class="concept-desc">o1、DeepSeek-R1等新一代模型，回答前会先进行内部推理链思考。类比：普通模型是"快思考"（直觉回答），推理模型是"慢思考"（逐步推演），更适合数学、逻辑、编程等复杂任务。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">15</div>
+          <div class="concept-title">Prompt Engineering</div>
+          <div class="concept-sub">提示词工程 · 系统性设计输入</div>
+          <div class="concept-desc">不只是写一句话，而是系统性地设计提示词的结构、角色设定、约束条件和输出格式。是"用好AI"的核心竞争力，也是目前职场中最实用的AI技能之一。</div>
+        </div>
+      </div>
+
+      <div class="concept-section-title">🔧 配套工具/格式 <span class="concept-section-sub">然后知道这些——AI 的"手脚"和"载体"</span></div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-num">01</div>
           <div class="concept-title">GitHub</div>
           <div class="concept-sub">开放协作平台</div>
           <div class="concept-desc">开放性科学交流平台。用户可以在这里存储、共享代码并与他人协作编写代码，还可以展示或分享您的代码作品；跟踪和管理代码的更改。</div>
         </div>
         <div class="concept-card">
-          <div class="concept-num">11</div>
+          <div class="concept-num">02</div>
           <div class="concept-title">HTML / md / csv</div>
           <div class="concept-sub">常见文件格式</div>
           <div class="concept-desc">HTML是网页格式；md（Markdown）是AI最顺手的文字格式，处理文档前转成md效率更高；csv是比xlsx更干净的表格格式，AI可直接读取。</div>
         </div>
         <div class="concept-card">
-          <div class="concept-num">12</div>
+          <div class="concept-num">03</div>
           <div class="concept-title">CLI</div>
           <div class="concept-sub">命令行界面</div>
           <div class="concept-desc">Command Line Interface。无图形界面，通过文字命令与计算机交互。AI（如Claude Code）可以通过CLI执行代码、管理文件、运行脚本等，自动化程度高、交互反馈快。</div>
         </div>
         <div class="concept-card">
-          <div class="concept-num">13</div>
+          <div class="concept-num">04</div>
           <div class="concept-title">IDE</div>
           <div class="concept-sub">集成开发环境</div>
           <div class="concept-desc">Integrated Development Environment。专为编程设计的工具，如VS Code、Cursor、PyCharm等。提供代码编辑、调试、版本控制等功能。AI可直接在IDE中与开发者协作编写代码。</div>
         </div>
         <div class="concept-card">
-          <div class="concept-num">14</div>
+          <div class="concept-num">05</div>
           <div class="concept-title">PowerShell</div>
           <div class="concept-sub">Windows脚本语言</div>
           <div class="concept-desc">Windows系统上的高级脚本语言，比CMD命令行功能更强大。可用于系统管理、自动化任务、数据处理等。AI可以帮助编写PowerShell脚本来自动化重复工作。</div>
         </div>
         <div class="concept-card">
-          <div class="concept-num">15</div>
+          <div class="concept-num">06</div>
           <div class="concept-title">Automation</div>
           <div class="concept-sub">自动化 · 流程自动化</div>
           <div class="concept-desc">通过脚本、Agent或工作流让重复性任务自动执行，减少人工干预。AI可以帮助设计自动化流程：如定期生成报表、自动发送邮件、数据定期更新等，提高工作效率。</div>
@@ -1237,7 +1300,7 @@
     </div>
 
     <div id="basic-layers" class="glass-box">
-      <h3>5层递进逻辑框架</h3>
+      <h3 id="h3-1-5层递进逻辑框架">5层递进逻辑框架</h3>
       <style>
         .layers-container {
           display: flex;
@@ -1362,7 +1425,7 @@
     </div>
 
     <div id="basic-can" class="glass-box">
-      <h3>✅ AI能做什么</h3>
+      <h3 id="h3-2-AI能做什么">✅ AI能做什么</h3>
       <style>
         .ability-grid {
           display: grid;
@@ -1428,7 +1491,7 @@
     </div>
 
     <div id="basic-cannot" class="glass-box">
-      <h3>❌ AI不能做什么（以及为什么）</h3>
+      <h3 id="h3-3-AI不能做什么以及为什么">❌ AI不能做什么（以及为什么）</h3>
       <style>
         .limitation-grid {
           display: grid;
@@ -1526,7 +1589,7 @@
     </div>
 
     <div id="method-prompt" class="glass-box active">
-      <h3>💬 Prompt — 如何写更清晰的指令</h3>
+      <h3 id="h3-4-Prompt--如何写更清晰的指令">💬 Prompt — 如何写更清晰的指令</h3>
       <p>为什么 AI 回答不好？很多时候不是 AI 不行，而是<strong>指令不够清晰</strong>。一个好的 Prompt 能让 AI 输出质量提升很多。</p>
       
       <style>
@@ -1599,7 +1662,7 @@
       </style>
 
       <div class="prompt-section">
-        <h4>📋 Prompt 的标准结构</h4>
+        <h4 id="h4-1-Prompt-的标准结构">📋 Prompt 的标准结构</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">一个有效的 Prompt 应该包含以下几个要素（不一定全部都用，视情况而定，可以后续慢慢补足）：</p>
         
         <div class="prompt-formula">
@@ -1616,7 +1679,7 @@
       </div>
 
       <div class="prompt-section">
-        <h4>🎯 5个关键的 Prompt 写法技巧</h4>
+        <h4 id="h4-2-5个关键的-Prompt-写法技巧">🎯 5个关键的 Prompt 写法技巧</h4>
         
         <div style="margin-bottom: 12px;">
           <strong style="color: var(--text-secondary);">1️⃣ 明确角色</strong>
@@ -1692,7 +1755,7 @@
       </div>
 
       <div class="prompt-section">
-        <h4>💡 HR 工作中的 Prompt 示例</h4>
+        <h4 id="h4-3-HR-工作中的-Prompt-示例">💡 HR 工作中的 Prompt 示例</h4>
         
         <div style="margin-bottom: 12px;">
           <strong style="color: var(--text-secondary);">示例1：简历初筛</strong>
@@ -1743,7 +1806,7 @@
       </div>
 
       <div class="prompt-section">
-        <h4>⚠️ 常见的 Prompt 错误</h4>
+        <h4 id="h4-4-常见的-Prompt-错误">⚠️ 常见的 Prompt 错误</h4>
         
         <div class="prompt-tips" style="margin-bottom: 10px;">
           <strong>❌ 错误1：期望AI猜测你的隐含需求</strong><br>
@@ -1772,7 +1835,7 @@
       </div>
 
       <div class="prompt-section">
-        <h4>✨ Prompt 写作的黄金法则</h4>
+        <h4 id="h4-5-Prompt-写作的黄金法则">✨ Prompt 写作的黄金法则</h4>
         <div style="background: var(--accent-c); border: 1px solid var(--accent-e); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">🎯 <strong>第一次问不好，就迭代。</strong> 如果AI的回答不符合预期，不是AI的问题，通常是你的Prompt不够清晰。试着：</p>
           <ul style="font-size: 12px; color: var(--text-body); padding-left: 20px; margin: 0;">
@@ -1788,7 +1851,7 @@
     </div>
 
     <div id="method-skill" class="glass-box">
-      <h3>🎯 Skill — 如何构建和复用能力</h3>
+      <h3 id="h3-5-Skill--如何构建和复用能力">🎯 Skill — 如何构建和复用能力</h3>
       
       <style>
         .skill-card {
@@ -1814,7 +1877,7 @@
       </style>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;"> 什么是 Skill？</h4>
+        <h4 id="h4-6-什么是-Skill"  style="color: var(--text-primary); margin-bottom: 8px;"> 什么是 Skill？</h4>
         <p style="font-size: 12px; color: var(--text-body); line-height: 1.6;">
           <strong>Skill 是一份给AI的"使用手册"，记录你的工作偏好、标准流程、评估框架等。</strong> 当你上传 Skill 给AI时，AI会按照你定义的方式来完成任务。<br><br>
           简单来说：Skill = 你的工作风格 + 常用流程 + 决策标准，打包成一份文档。
@@ -1822,7 +1885,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📌 为什么要用 Skill？</h4>
+        <h4 id="h4-7-为什么要用-Skill"  style="color: var(--text-primary); margin-bottom: 8px;">📌 为什么要用 Skill？</h4>
         <div class="skill-card">
           <strong>问题：</strong> 每次用AI都要重新解释"我们公司的风格是什么""候选人该怎么评估"<br>
           <strong>解决方案：</strong> 创建一个Skill，AI会记住这些标准，下次可直接调用。
@@ -1839,7 +1902,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🔧 Skill 的常见类型</h4>
+        <h4 id="h4-8-Skill-的常见类型"  style="color: var(--text-primary); margin-bottom: 8px;">🔧 Skill 的常见类型</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
           <div style="background: var(--surface-o); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
             <strong style="color: var(--text-secondary); font-size: 12px;">📝 写作风格 Skill</strong>
@@ -1869,7 +1932,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📚 Skill 的结构和示例</h4>
+        <h4 id="h4-9-Skill-的结构和示例"  style="color: var(--text-primary); margin-bottom: 8px;">📚 Skill 的结构和示例</h4>
         
         <div style="background: var(--warning-bg); border-left: 3px solid rgba(255,200,0,0.4); padding: 12px 14px; border-radius: 6px; margin-bottom: 14px;">
           <p style="font-size: 11px; color: var(--text-secondary); margin: 0; line-height: 1.6;">
@@ -2039,7 +2102,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🚀 创建 Skill 的两种方法</h4>
+        <h4 id="h4-10-创建-Skill-的两种方法"  style="color: var(--text-primary); margin-bottom: 8px;">🚀 创建 Skill 的两种方法</h4>
         
         <div style="background: var(--surface-o); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
           <p style="font-size: 14px; color: var(--text-body); margin-bottom: 10px;"><strong>方法1️⃣：自己写 Skill（自主型）</strong></p>
@@ -2092,7 +2155,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 12px;">🛠️ 不同 AI 工具创建和使用 Skill 的对比</h4>
+        <h4 id="h4-11-不同-AI-工具创建和使用-Skill"  style="color: var(--text-primary); margin-bottom: 12px;">🛠️ 不同 AI 工具创建和使用 Skill 的对比</h4>
         
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           不同的AI工具（Claude、ChatGPT、Codex等）在创建和使用Skill时有各自的特点。选择合适的工具能让你事半功倍。
@@ -2154,7 +2217,7 @@
       </div>
 
       <div>
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💾 在哪里存放和分享 Skill</h4>
+        <h4 id="h4-12-在哪里存放和分享-Skill"  style="color: var(--text-primary); margin-bottom: 8px;">💾 在哪里存放和分享 Skill</h4>
         <div class="skill-card">
           <strong>📁 本地保存：</strong> 在你的电脑上建一个文件夹 ~/AI_Skills/，把所有 Skill 文件存在这里。定期备份到云盘（Google Drive、Dropbox等）。
         </div>
@@ -2168,7 +2231,7 @@
     </div>
 
     <div id="method-project" class="glass-box">
-      <h3>📊 Project — 如何让 AI 持续跟进任务</h3>
+      <h3 id="h3-6-Project--如何让-AI-持续跟">📊 Project — 如何让 AI 持续跟进任务</h3>
       
       <style>
         .project-highlight {
@@ -2187,7 +2250,7 @@
       </p>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🎯 Project 的核心特点</h4>
+        <h4 id="h4-13-Project-的核心特点"  style="color: var(--text-primary); margin-bottom: 8px;">🎯 Project 的核心特点</h4>
         <div style="background: var(--accent-b); border-left: 3px solid var(--accent-h); padding: 12px 14px; border-radius: 6px; margin-bottom: 8px;">
           <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;">
             <strong>✦ 持久化工作空间：</strong> 跨对话保留记忆。你上传的文件、自定义指令、对话历史都会被保存。每次进入 Project，AI 都能记住之前的所有内容。
@@ -2202,7 +2265,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🤔 Project vs Skill vs Prompt</h4>
+        <h4 id="h4-14-Project-vs-Skill-vs"  style="color: var(--text-primary); margin-bottom: 8px;">🤔 Project vs Skill vs Prompt</h4>
         <table style="width: 100%; font-size: 11px; color: var(--text-body); border-collapse: collapse;">
           <tr style="background: var(--surface-b); border-bottom: 1px solid var(--border-table-header);">
             <td style="padding: 8px; border-right: 1px solid var(--border-table);"><strong>Prompt</strong></td>
@@ -2223,7 +2286,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📌 Project 的适用场景</h4>
+        <h4 id="h4-15-Project-的适用场景"  style="color: var(--text-primary); margin-bottom: 8px;">📌 Project 的适用场景</h4>
         
         <div class="project-highlight">
           <strong>招聘进度跟进</strong><br>
@@ -2252,7 +2315,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🛠️ 如何在 Claude 中创建 Project</h4>
+        <h4 id="h4-16-如何在-Claude-中创建-Proj"  style="color: var(--text-primary); margin-bottom: 8px;">🛠️ 如何在 Claude 中创建 Project</h4>
         <ol style="font-size: 12px; color: var(--text-body); padding-left: 20px; line-height: 1.8;">
           <li>在 Claude.ai 上，点击左边栏的 <strong>"Create Project"</strong></li>
           <li>给 Project 起一个名字，例如"2024年校招进度"</li>
@@ -2264,7 +2327,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💡 Project 的最佳实践</h4>
+        <h4 id="h4-17-Project-的最佳实践"  style="color: var(--text-primary); margin-bottom: 8px;">💡 Project 的最佳实践</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;"><strong>✅ 在 Project 中保持清晰的上下文</strong></p>
@@ -2293,7 +2356,7 @@
       </div>
 
       <div>
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">⚠️ Project 的限制</h4>
+        <h4 id="h4-18-Project-的限制"  style="color: var(--text-primary); margin-bottom: 8px;">⚠️ Project 的限制</h4>
         <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">
             <strong>上下文有限制：</strong> Project 中的对话如果太长（通常在50-100条消息后），AI 可能开始遗忘最早的部分。应对办法是定期总结和导出。
@@ -2306,14 +2369,14 @@
     </div>
 
     <div id="method-artifact" class="glass-box">
-      <h3>💾 Artifact — 如何沉淀 AI 产出</h3>
+      <h3 id="h3-7-Artifact--如何沉淀-AI-产">💾 Artifact — 如何沉淀 AI 产出</h3>
       
       <p style="font-size: 12px; color: var(--text-body); line-height: 1.6; margin-bottom: 12px;">
         <strong>Artifact 是 AI 生成的可复用文件或内容。</strong>与 Prompt 的一次性输出不同，Artifact 是被保存、编辑、分享、反复使用的成果。
       </p>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🎯 Artifact 的核心特点</h4>
+        <h4 id="h4-19-Artifact-的核心特点"  style="color: var(--text-primary); margin-bottom: 8px;">🎯 Artifact 的核心特点</h4>
         <div style="background: var(--accent-b); border-left: 3px solid var(--accent-h); padding: 12px 14px; border-radius: 6px; margin-bottom: 8px;">
           <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;">
             <strong>✦ 单次对话的独立输出物：</strong> 是 Claude 在对话中生成的独立内容（代码、工具、卡片、文档等）。
@@ -2328,7 +2391,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📋 什么是 Artifact？</h4>
+        <h4 id="h4-20-什么是-Artifact"  style="color: var(--text-primary); margin-bottom: 8px;">📋 什么是 Artifact？</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           当你让 AI 生成一个重要的、可以被反复使用的内容时，AI 会在专门的窗口中生成，你可以：
         </p>
@@ -2342,7 +2405,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🎯 Artifact 的常见类型</h4>
+        <h4 id="h4-21-Artifact-的常见类型"  style="color: var(--text-primary); margin-bottom: 8px;">🎯 Artifact 的常见类型</h4>
         
         <table style="width: 100%; font-size: 11px; color: var(--text-body); border-collapse: collapse;">
           <tr style="background: var(--surface-b); border-bottom: 1px solid var(--border-table-header);">
@@ -2379,7 +2442,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🛠️ 如何创建和管理 Artifact</h4>
+        <h4 id="h4-22-如何创建和管理-Artifact"  style="color: var(--text-primary); margin-bottom: 8px;">🛠️ 如何创建和管理 Artifact</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-body); margin-bottom: 8px;"><strong>1️⃣ 自动生成</strong></p>
@@ -2398,7 +2461,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💡 Artifact 的最佳实践</h4>
+        <h4 id="h4-23-Artifact-的最佳实践"  style="color: var(--text-primary); margin-bottom: 8px;">💡 Artifact 的最佳实践</h4>
         
         <div style="background: var(--success-accent-bg); border-left:3px solid var(--success-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
           <strong>建立 Artifact 库</strong><br>
@@ -2429,7 +2492,7 @@
       </div>
 
       <div>
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">⚠️ Artifact 的注意事项</h4>
+        <h4 id="h4-24-Artifact-的注意事项"  style="color: var(--text-primary); margin-bottom: 8px;">⚠️ Artifact 的注意事项</h4>
         <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">
             <strong>隐私和敏感信息：</strong> 不要在 Artifact 中放入真实的员工姓名、工资数字、身份证号等敏感信息。用"员工A""薪酬范围"这样的虚指代替。
@@ -2442,14 +2505,14 @@
     </div>
 
     <div id="method-config" class="glass-box">
-      <h3>⚙️ 个性化配置 — 让 AI 更懂你</h3>
+      <h3 id="h3-8-个性化配置--让-AI-更懂你">⚙️ 个性化配置 — 让 AI 更懂你</h3>
       
       <p style="font-size: 12px; color: var(--text-body); line-height: 1.6; margin-bottom: 12px;">
         <strong>在开始使用 AI 之前，花一点时间配置好你的"Agent 准则"</strong>，可以让 AI 更理解你的风格、需求和工作习惯。这样每次对话都会更高效，少做很多重复解释。
       </p>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">1️⃣ 设置你的 Agent 准则</h4>
+        <h4 id="h4-25-1-设置你的-Agent-准则"  style="color: var(--text-primary); margin-bottom: 8px;">1️⃣ 设置你的 Agent 准则</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           首次使用 AI 时，建议先定义你的"角色画像"和"使用习惯"。
         </p>
@@ -2479,7 +2542,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">2️⃣ 寻找和复用现成的 Skill</h4>
+        <h4 id="h4-26-2-寻找和复用现成的-Skill"  style="color: var(--text-primary); margin-bottom: 8px;">2️⃣ 寻找和复用现成的 Skill</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           不用所有东西都自己写。很多高手已经配置好了 Skill，可以直接复用。
         </p>
@@ -2507,7 +2570,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">3️⃣ 参考企业规范和最佳实践</h4>
+        <h4 id="h4-27-3-参考企业规范和最佳实践"  style="color: var(--text-primary); margin-bottom: 8px;">3️⃣ 参考企业规范和最佳实践</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           如果你的企业或集团有统一的 AI 使用规范，可以参考这些标准来配置你的 Agent。
         </p>
@@ -2526,7 +2589,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💡 个性化配置的最佳实践</h4>
+        <h4 id="h4-28-个性化配置的最佳实践"  style="color: var(--text-primary); margin-bottom: 8px;">💡 个性化配置的最佳实践</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-body); margin-bottom: 8px;"><strong>✅ 定期审视和更新</strong></p>
@@ -2546,14 +2609,14 @@
     </div>
 
     <div id="method-token" class="glass-box">
-      <h3>⚙️ Token 优化 — 如何高效使用</h3>
+      <h3 id="h3-9-Token-优化--如何高效使用">⚙️ Token 优化 — 如何高效使用</h3>
       
       <p style="font-size: 12px; color: var(--text-body); line-height: 1.6; margin-bottom: 12px;">
         <strong>Token 是 AI 理解的"文字单位"。</strong> 你输入的每个字、每个空格、AI 生成的每个字，都会消耗 Token。如果你的 Prompt 很长，或者上传了很多文件，会消耗更多 Token。了解如何优化 Token 使用，可以帮你节省成本。
       </p>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📊 什么是 Token？</h4>
+        <h4 id="h4-29-什么是-Token"  style="color: var(--text-primary); margin-bottom: 8px;">📊 什么是 Token？</h4>
         <ul style="font-size: 12px; color: var(--text-body); padding-left: 20px; line-height: 1.8;">
           <li>大约 <strong>1 个中文字 ≈ 1-2 个 Token</strong></li>
           <li>1 个英文单词 ≈ 1 个 Token</li>
@@ -2564,7 +2627,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💰 Token 成本和计费</h4>
+        <h4 id="h4-30-Token-成本和计费"  style="color: var(--text-primary); margin-bottom: 8px;">💰 Token 成本和计费</h4>
         <p style="font-size: 12px; color: var(--text-body); margin-bottom: 10px;">
           不同的模型，Token 价格不同。<strong>一般来说，输入的 Token 价格较低，输出的 Token 价格较高。</strong>
         </p>
@@ -2577,7 +2640,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">🎯 一些节省 Token 的技巧</h4>
+        <h4 id="h4-31-一些节省-Token-的技巧"  style="color: var(--text-primary); margin-bottom: 8px;">🎯 一些节省 Token 的技巧</h4>
         
         <div style="margin-bottom: 10px;">
           <strong style="color: var(--text-secondary);">1️⃣ 精简背景信息</strong>
@@ -2647,7 +2710,7 @@
       </div>
 
       <div style="margin-bottom: 16px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">📈 什么时候值得花更多 Token</h4>
+        <h4 id="h4-32-什么时候值得花更多-Token"  style="color: var(--text-primary); margin-bottom: 8px;">📈 什么时候值得花更多 Token</h4>
         <div style="background: var(--success-accent-bg); border-left:3px solid var(--success-accent-border); padding: 12px 14px; border-radius: 6px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
             <strong>高价值的任务：</strong> 如果这个任务能为公司带来价值（如招聘文案会被反复使用、数据分析会影响决策），值得花更多 Token 做高质量的输出。
@@ -2662,7 +2725,7 @@
       </div>
 
       <div>
-        <h4 style="color: var(--text-primary); margin-bottom: 8px;">💡 Token 成本 vs 时间成本</h4>
+        <h4 id="h4-33-Token-成本-vs-时间成本"  style="color: var(--text-primary); margin-bottom: 8px;">💡 Token 成本 vs 时间成本</h4>
         <p style="font-size: 12px; color: var(--text-body); line-height: 1.6;">
           最重要的是平衡：<strong>不要为了省几块钱的 Token 费用，浪费自己的时间。</strong> 如果优化 Token 会让工作变得复杂、效率变低，就不值得。AI 的成本很低，你的时间成本更高。
         </p>
@@ -2670,7 +2733,7 @@
     </div>
 
     <div id="method-mistake" class="glass-box">
-      <h3>🚨 常见误区 — 避免踩坑</h3>
+      <h3 id="h3-10-常见误区--避免踩坑">🚨 常见误区 — 避免踩坑</h3>
       
       <p style="font-size: 12px; color: var(--text-body); line-height: 1.6; margin-bottom: 12px;">
         很多人在使用 AI 时，因为不了解 AI 的特性和局限，踩了很多坑。这里列出最常见的 11 个误区，帮你避免重复犯错。
@@ -2869,7 +2932,7 @@
     </div>
 
         <div id="template-prompt" class="glass-box active">
-      <h3>📋 Prompt 模板库</h3>
+      <h3 id="h3-11-Prompt-模板库">📋 Prompt 模板库</h3>
       
       <!-- 搜索栏 -->
       <div style="margin-bottom: 20px;">
@@ -2881,18 +2944,18 @@
       </div>
       
       <div style="margin-bottom: 20px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 12px;">第一步：选择工作场景</h4>
+        <h4 id="h4-34-第一步选择工作场景"  style="color: var(--text-primary); margin-bottom: 12px;">第一步：选择工作场景</h4>
                 <div id="scenarioList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
         </div>
       </div>
 
       <div id="taskSection" style="display: none; margin-bottom: 20px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 12px;">第二步：选择具体任务</h4>
+        <h4 id="h4-35-第二步选择具体任务"  style="color: var(--text-primary); margin-bottom: 12px;">第二步：选择具体任务</h4>
         <div id="taskList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;"></div>
       </div>
 
       <div id="templateSection" style="display: none; margin-bottom: 20px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 12px;">第三步：Prompt 模板</h4>
+        <h4 id="h4-36-第三步Prompt-模板"  style="color: var(--text-primary); margin-bottom: 12px;">第三步：Prompt 模板</h4>
         <div id="templateContent"></div>
       </div>
 
@@ -3510,9 +3573,65 @@ document.addEventListener('DOMContentLoaded', function() {
           border-color: rgba(34,197,94,0.3);
           color: #22c55e;
         }
-      </style>
+      
+    
+    /* 移动端响应 */
+    @media (max-width: 1400px) {
+      
+    }
 
-      <h3>📖 Skill 库 — 即拿即用的 AI 技能文件</h3>
+    @media (max-width: 1100px) {
+      
+      
+      .toc-toggle-mobile {
+        display: inline-flex !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .toc-toggle-mobile {
+        display: inline-flex !important;
+      }
+
+      
+    }
+
+    /* 动画 */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    
+    
+
+
+    @media (max-width: 1100px) {
+      
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+
+
+    </style>
+
+      <h3 id="h3-12-Skill-库--即拿即用的-AI-技">📖 Skill 库 — 即拿即用的 AI 技能文件</h3>
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px;">每个 Skill 都是一份可复用"AI 使用手册"，复制后粘贴到对话中即可让 AI 按规范工作</p>
 
       <!-- 分类标签 -->
@@ -3526,7 +3645,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div id="skill-office" class="skill-section active">
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>📝 会议纪要自动生成</h4>
+            <h4 id="h4-37-会议纪要自动生成">📝 会议纪要自动生成</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">结构化会议记录 + 行动项追踪，告别流水账</p>
@@ -3535,7 +3654,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>📊 工作周报智能撰写</h4>
+            <h4 id="h4-38-工作周报智能撰写">📊 工作周报智能撰写</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">亮点 / 进展 / 问题 / 计划四段式，轻松交出专业周报</p>
@@ -3544,7 +3663,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>📧 专业邮件写作助手</h4>
+            <h4 id="h4-39-专业邮件写作助手">📧 专业邮件写作助手</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">覆盖汇报/请求/跟进/感谢/道歉 5 种场景</p>
@@ -3556,7 +3675,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div id="skill-design" class="skill-section">
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>🔍 UI 设计评审框架</h4>
+            <h4 id="h4-40-UI-设计评审框架">🔍 UI 设计评审框架</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">从可用性、一致性、可访问性、信息传达四个维度系统评审</p>
@@ -3565,7 +3684,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>🎨 设计规范文档生成</h4>
+            <h4 id="h4-41-设计规范文档生成">🎨 设计规范文档生成</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">Design Token + 组件规范模板，快速产出设计系统文档</p>
@@ -3574,7 +3693,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>📊 用户反馈与可用性分析</h4>
+            <h4 id="h4-42-用户反馈与可用性分析">📊 用户反馈与可用性分析</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">反馈聚类 + 严重度评分 + 改进路线图</p>
@@ -3586,7 +3705,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div id="skill-hr" class="skill-section">
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>🎯 候选人综合评估</h4>
+            <h4 id="h4-43-候选人综合评估">🎯 候选人综合评估</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">四维度加权评分体系，输出结构化评估报告</p>
@@ -3595,7 +3714,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>❓ 结构化面试问题生成</h4>
+            <h4 id="h4-44-结构化面试问题生成">❓ 结构化面试问题生成</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">STAR 法则 + 四类问题配比，覆盖技能/行为/情景/文化</p>
@@ -3604,7 +3723,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="skill-block">
           <div class="skill-block-header">
-            <h4>💬 离职面谈分析</h4>
+            <h4 id="h4-45-离职面谈分析">💬 离职面谈分析</h4>
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">五层递进问题 + 离职原因分类框架，输出组织洞察</p>
@@ -3661,14 +3780,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- Prompt诊断工具 -->
     <div id="template-tools" class="glass-box">
-      <h3>🔍 Prompt诊断工具</h3>
+      <h3 id="h3-13-Prompt诊断工具">🔍 Prompt诊断工具</h3>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
         
         <!-- 左侧：诊断工具 -->
         <div>
           <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
-            <h4 style="color: var(--text-primary); margin-bottom: 12px;">📋 Prompt质量诊断</h4>
+            <h4 id="h4-46-Prompt质量诊断"  style="color: var(--text-primary); margin-bottom: 12px;">📋 Prompt质量诊断</h4>
             <p style="font-size: 12px; color: var(--text-body); margin-bottom: 16px;">粘贴你的Prompt，系统会自动检查质量并给出建议</p>
             
             <textarea id="diagnosisInput" placeholder="把你的Prompt粘贴在这里...&#10;&#10;例如：&quot;帮我写个招聘文案&quot;" 
@@ -3686,7 +3805,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- 右侧：Prompt生成器 -->
         <div>
           <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
-            <h4 style="color: var(--text-primary); margin-bottom: 12px;">✨ 智能Prompt生成器</h4>
+            <h4 id="h4-47-智能Prompt生成器"  style="color: var(--text-primary); margin-bottom: 12px;">✨ 智能Prompt生成器</h4>
             <p style="font-size: 12px; color: var(--text-body); margin-bottom: 16px;">选择任务类型，自动生成专业Prompt</p>
             
             <div id="generatorForm" style="display: flex; flex-direction: column; gap: 12px;">
@@ -4742,10 +4861,10 @@ ${toneMap[tone] || '自然得体'}
     </div>
 
     <div id="safety-data" class="glass-box active">
-      <h3>🔐 数据安全</h3>
+      <h3 id="h3-14-数据安全">🔐 数据安全</h3>
       
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 员工隐私保护</h4>
+        <h4 id="h4-48-1-员工隐私保护"  style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 员工隐私保护</h4>
         <div style="background: var(--surface-a); border-left:3px solid var(--accent-h); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>🚫 禁止上传真实员工信息：</strong></p>
           <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0;">
@@ -4779,7 +4898,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 敏感信息处理（薪酬、绩效评估等）</h4>
+        <h4 id="h4-49-2-敏感信息处理薪酬绩效评估等"  style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 敏感信息处理（薪酬、绩效评估等）</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <div style="margin-bottom: 10px;">
@@ -4821,7 +4940,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 第三方AI工具的数据存储与传输策略</h4>
+        <h4 id="h4-50-3-第三方AI工具的数据存储与传输策略"  style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 第三方AI工具的数据存储与传输策略</h4>
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>在使用任何AI工具前，问这5个问题：</strong></p>
           <ol style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0; line-height: 1.8;">
@@ -4844,7 +4963,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div>
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">4️⃣ 信息脱敏的操作步骤</h4>
+        <h4 id="h4-51-4-信息脱敏的操作步骤"  style="color: var(--text-primary); margin-bottom: 10px;">4️⃣ 信息脱敏的操作步骤</h4>
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>5步脱敏流程</strong></p>
           <ol style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0; line-height: 1.9;">
@@ -4863,10 +4982,10 @@ ${toneMap[tone] || '自然得体'}
     </div>
 
     <div id="safety-compliance" class="glass-box">
-      <h3>📋 合规性</h3>
+      <h3 id="h3-15-合规性">📋 合规性</h3>
       
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 劳动法相关 — 自动化决策的法律风险</h4>
+        <h4 id="h4-52-1-劳动法相关--自动化决策的法律风险"  style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 劳动法相关 — 自动化决策的法律风险</h4>
         <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>🚫 AI不能单独做出的决定：</strong></p>
           <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0;">
@@ -4895,7 +5014,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 数据保护法规 — 本地化存储与访问要求</h4>
+        <h4 id="h4-53-2-数据保护法规--本地化存储与访问要求"  style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 数据保护法规 — 本地化存储与访问要求</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>中国企业需要了解的法规</strong></p>
@@ -4927,7 +5046,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 行业规范与内部审批流程</h4>
+        <h4 id="h4-54-3-行业规范与内部审批流程"  style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 行业规范与内部审批流程</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>建议的内部AI治理框架</strong></p>
@@ -4967,10 +5086,10 @@ ${toneMap[tone] || '自然得体'}
     </div>
 
     <div id="safety-risk" class="glass-box">
-      <h3>⚡ AI 输出的风险</h3>
+      <h3 id="h3-16-AI-输出的风险">⚡ AI 输出的风险</h3>
       
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 幻觉问题 — AI编造信息的风险</h4>
+        <h4 id="h4-55-1-幻觉问题--AI编造信息的风险"  style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 幻觉问题 — AI编造信息的风险</h4>
         
         <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>什么是"幻觉"？</strong></p>
@@ -5007,7 +5126,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 偏见问题 — 算法隐性偏见的影响</h4>
+        <h4 id="h4-56-2-偏见问题--算法隐性偏见的影响"  style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 偏见问题 — 算法隐性偏见的影响</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>AI的偏见从哪里来？</strong></p>
@@ -5041,7 +5160,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 人工审核的必要性 — AI输出 = 草稿，不是最终结论</h4>
+        <h4 id="h4-57-3-人工审核的必要性--AI输出--草稿"  style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 人工审核的必要性 — AI输出 = 草稿，不是最终结论</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>正确的认知</strong></p>
@@ -5071,10 +5190,10 @@ ${toneMap[tone] || '自然得体'}
     </div>
 
     <div id="safety-norm" class="glass-box">
-      <h3>✔️ 使用规范</h3>
+      <h3 id="h3-17-使用规范">✔️ 使用规范</h3>
       
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 哪些场景不适合用AI？</h4>
+        <h4 id="h4-58-1-哪些场景不适合用AI"  style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 哪些场景不适合用AI？</h4>
         
         <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>🚫 禁止场景</strong></p>
@@ -5102,7 +5221,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 信息脱敏的操作步骤（详细版）</h4>
+        <h4 id="h4-59-2-信息脱敏的操作步骤详细版"  style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 信息脱敏的操作步骤（详细版）</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;"><strong>脱敏前的检查清单</strong></p>
@@ -5147,7 +5266,7 @@ ${toneMap[tone] || '自然得体'}
       </div>
 
       <div style="margin-bottom: 18px;">
-        <h4 style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 内部审批流程与使用记录</h4>
+        <h4 id="h4-60-3-内部审批流程与使用记录"  style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 内部审批流程与使用记录</h4>
         
         <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
           <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>建议的AI使用审批表</strong></p>
@@ -5506,6 +5625,10 @@ ${toneMap[tone] || '自然得体'}
     });
   }
 </script>
+
+
+
+
 
 </body>
 </html>
