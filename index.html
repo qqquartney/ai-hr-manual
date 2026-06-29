@@ -74,20 +74,21 @@
     }
 
     body.theme-eye-care {
+      --skill-bg: rgba(220, 200, 175, 0.22);
       --bg-overlay: rgba(250,240,220,0.8);
       --text-white: #3d2e1f;
       --text-primary: #3d2e1f;
-      --text-secondary: #4a3828;
-      --text-body: #5c4a33;
-      --text-muted: #7a6850;
-      --text-dimmer: #7a6850;
-      --text-dim: #b5a590;
-      --text-very-dim: #a09080;
-      --text-hint: #8a7860;
+      --text-secondary: #231509;
+      --text-body: #332011;
+      --text-muted: #4e3e2c;
+      --text-dimmer: #4e3e2c;
+      --text-dim: #7a6850;
+      --text-very-dim: #6e5e4e;
+      --text-hint: #4e3e2c;
       --bg-nav: rgba(255,245,230,0.92);
       --border-nav: rgba(180,140,80,0.12);
       --border-divider: rgba(180,140,80,0.15);
-      --surface-a: rgba(255,250,240,0.88);
+      --surface-a: rgba(255,250,240,0.6);
       --surface-b: rgba(255,250,240,0.9);
       --surface-c: rgba(255,250,240,0.92);
       --surface-d: rgba(180,140,80,0.06);
@@ -117,7 +118,7 @@
       --accent-g: rgba(180,140,80,0.25);
       --accent-h: rgba(180,140,80,0.35);
       --accent-i: rgba(180,140,80,0.6);
-      --code-bg: rgba(180,140,80,0.08);
+      --code-bg: rgba(180,140,80,0.15);
       --code-border: rgba(180,140,80,0.12);
       --code-text: #3d2e1f;
       --code-text2: #5c4a33;
@@ -620,6 +621,11 @@
     textarea::placeholder {
       color: rgba(240, 240, 240, 0.85) !important;
       opacity: 1 !important;
+    }
+    /* 护眼模式placeholder：浅棕色，清晰可读 */
+    body.theme-eye-care input::placeholder,
+    body.theme-eye-care textarea::placeholder {
+      color: #8a7860 !important;
     }
 
     /* ---- 内容页面通用 ---- */
@@ -1864,7 +1870,7 @@
           color: var(--text-secondary);
         }
         .skill-example {
-          background: var(--surface-a);
+          background: var(--skill-bg, var(--surface-a));
           border: 1px solid var(--border-table);
           padding: 12px;
           border-radius: 8px;
@@ -1873,6 +1879,9 @@
           line-height: 1.5;
           margin: 8px 0;
           font-family: 'Courier New', monospace;
+        }
+        .skill-example strong[style*="--accent-g"] {
+          color: rgba(160, 50, 30, 0.95) !important;
         }
       </style>
 
@@ -2019,7 +2028,7 @@
         <div style="margin-bottom: 16px;">
           <p style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">💭 示例3：薪酬调整评估标准（沟通思路版）</p>
           <p style="font-size: 12px; color: var(--text-body); margin-bottom: 8px;"><em>这是一个还不够清晰的Skill思路。可以先用这个和AI讨论，逐步完善：</em></p>
-          <div class="skill-example" style="font-size: 13px; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: rgba(100,200,100,0.05);">
+          <div class="skill-example" style="font-size: 13px; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;">
 <strong style="font-size: 13px; color: var(--text-primary);"># 薪酬调整评估标准（初步思路）</strong>
 
 <strong style="color: var(--accent-g); font-size: 13px;">## 我想创建这个Skill是因为：</strong>
@@ -2071,7 +2080,7 @@
         <!-- 示例5：数据标准版 -->
         <div style="margin-bottom: 16px;">
           <p style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">📊 示例5：数据标准定义（数据标准版）</p>
-          <div class="skill-example" style="font-size: 13px; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: rgba(100,200,100,0.05);">
+          <div class="skill-example" style="font-size: 13px; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;">
 <strong style="font-size: 13px; color: var(--text-primary);">## HR关键指标定义</strong>
 
 <strong style="color: var(--accent-g); font-size: 13px;">## 离职率</strong>
