@@ -171,24 +171,27 @@
     }
 
     .theme-toggle-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      background: var(--surface-e);
-      border: 1px solid var(--border-divider);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface-i);
+      border: 1px solid var(--accent-i);
       cursor: pointer;
-      font-size: 15px;
+      font-size: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
-      color: var(--text-primary);
+      transition: all 0.3s ease;
+      color: var(--text-white);
       line-height: 1;
       flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     }
     .theme-toggle-btn:hover {
-      background: var(--surface-i);
-      color: var(--text-white);
+      background: var(--accent-i);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
 
     .theme-toggle-label {
@@ -278,12 +281,11 @@
       margin-right: 24px;
       white-space: nowrap;
     }
-    .topnav-brand .theme-toggle-wrapper {
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-left: 8px;
+    .theme-toggle-wrapper {
+      position: fixed;
+      right: 32px;
+      bottom: 84px;
+      z-index: 90;
     }
 
     .topnav-divider {
@@ -818,21 +820,214 @@
       color: var(--text-primary); font-weight: 600;
       box-shadow: 0 0 8px rgba(100,160,255,0.2);
     }
+
+    /* ===== 手机端响应式 ===== */
+    @media (max-width: 768px) {
+      /* body 可滚动 */
+      html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+        min-height: 100vh !important;
+      }
+
+      /* 导航栏：品牌+菜单横向滚动 */
+      .topnav {
+        padding: 0 12px !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .topnav-brand {
+        font-size: 12px !important;
+        margin-right: 12px !important;
+        flex-shrink: 0 !important;
+      }
+      .topnav-divider { margin-right: 8px !important; flex-shrink: 0 !important; }
+      .nav-item {
+        padding: 7px 10px !important;
+        font-size: 12px !important;
+        flex-shrink: 0 !important;
+      }
+      .topnav-utils { gap: 6px !important; flex-shrink: 0 !important; }
+      .search-input { width: 60px !important; }
+
+      /* 搜索面板 */
+      .search-panel { padding: 12px 16px !important; }
+
+      /* 主内容区：去掉固定高度，减少边距 */
+      .main {
+        height: auto !important;
+        min-height: 100vh !important;
+        padding: 72px 16px 24px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+
+      /* ---- 首页 ---- */
+      .home-layout {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 16px 0 !important;
+        gap: 20px !important;
+        align-items: flex-start !important;
+      }
+      .home-left {
+        flex: none !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        gap: 12px !important;
+      }
+      .home-title { font-size: 28px !important; }
+      .home-desc { max-width: 100% !important; font-size: 14px !important; }
+      .home-right {
+        flex: none !important;
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+      .module-card {
+        aspect-ratio: auto !important;
+        padding: 20px 16px !important;
+      }
+      .card-title { font-size: 16px !important; }
+      .card-desc { font-size: 13px !important; }
+
+      /* ---- 页面标题 ---- */
+      .page-title { font-size: 20px !important; }
+
+      /* ---- 标签栏：横向滚动 ---- */
+      .tabs {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 4px !important;
+        margin-bottom: 16px !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+      .tab-btn {
+        padding: 8px 14px !important;
+        font-size: 12px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* ---- 内容区所有 2 列网格 → 1 列 ---- */
+      .concept-grid,
+      .ability-grid,
+      .limitation-grid,
+      .prompt-compare {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* ---- 内联 grid 也改为单列 ---- */
+      /* 用 JS 或通用选择器覆盖 inline grid */
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* ---- 玻璃内容框 ---- */
+      .glass-box h3 { font-size: 15px !important; }
+      .glass-box p  { font-size: 13px !important; line-height: 1.65 !important; }
+      .glass-box li { font-size: 13px !important; }
+
+      /* ---- 概念卡片 ---- */
+      .concept-card {
+        padding: 16px !important;
+      }
+      .concept-title { font-size: 18px !important; }
+
+      /* ---- Prompt 生成器区域 ---- */
+      #generatorWrapper,
+      #generatorResult {
+        width: 100% !important;
+      }
+      .gen-field,
+      #generatorWrapper input[type="text"],
+      #generatorWrapper textarea,
+      #generatorWrapper select {
+        font-size: 14px !important; /* 手机上输入框字体稍大，便于触摸 */
+        padding: 10px 12px !important;
+      }
+
+      /* ---- 诊断工具两栏 → 单栏 ---- */
+      #template-tools > div:first-of-type {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* ---- 回到顶部按钮 ---- */
+      .back-to-top {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+        bottom: 16px !important;
+        right: 16px !important;
+      }
+
+      /* ---- 主题切换按钮（右下角，手机端缩小） ---- */
+      .theme-toggle-wrapper {
+        bottom: 60px !important;
+        right: 16px !important;
+      }
+      .theme-toggle-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+      }
+      .theme-toggle-label {
+        display: none !important;
+      }
+
+      /* ---- 通用：防止宽元素溢出 ---- */
+      .glass-box,
+      .page,
+      .prompt-section,
+      .skill-card,
+      .flow-step,
+      .template-flow {
+        max-width: 100% !important;
+        overflow-x: auto !important;
+      }
+
+      /* ---- 表格/代码块横向滚动 ---- */
+      pre, code, .prompt-formula, .prompt-example,
+      .concept-desc, .ability-desc, .limitation-desc {
+        overflow-x: auto !important;
+        word-break: break-word !important;
+      }
+
+      /* ---- 流程步骤 ---- */
+      .flow-step {
+        gap: 10px !important;
+      }
+      .flow-step-num {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 12px !important;
+      }
+
+      /* ---- chip 按钮：稍微大一些便于触摸 ---- */
+      .chip-btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+      }
+    }
   </style>
 </head>
 <body>
 
 <!-- 顶部导航栏 -->
 <div class="topnav">
-  <div class="topnav-brand" style="cursor:pointer;" onclick="showPage('home', document.querySelector('.nav-item'))">AI Learning Hub
-    <div class="theme-toggle-wrapper">
-      <button class="theme-toggle-btn" id="themeToggleBtn" title="切换模式" onclick="event.stopPropagation()">&#9788;</button>
-      <div class="theme-toggle-label" id="themeToggleLabel">夜间模式</div>
-    </div>
+  <div class="topnav-brand" style="cursor:pointer;" onclick="showPage('home')">AI Learning Hub
   </div>
   <div class="topnav-divider"></div>
-  <div class="nav-item active" onclick="showPage('home', this)">首页</div>
-  <div class="nav-item" onclick="showPage('basic', this)">AI基础认知</div>
+  <div class="nav-item active" onclick="showPage('basic', this)">AI基础认知</div>
   <div class="nav-item" onclick="showPage('method', this)">AI工作方法</div>
   <div class="nav-item" onclick="showPage('template', this)">Prompt/Skill库</div>
   <div class="nav-item" onclick="showPage('safety', this)">AI使用风险与安全</div>
@@ -859,25 +1054,25 @@
         <div class="home-tag">AI Learning Hub</div>
         <div class="home-title">Learn.<br>Explore.<br>Grow with AI.</div>
         <div class="home-desc">探索未来工作方式。</div>
-        <div class="home-btn" onclick="showPage('basic', document.querySelectorAll('.nav-item')[1])">Start Learning &nbsp;›</div>
+        <div class="home-btn" onclick="showPage('basic', document.querySelectorAll('.nav-item')[0])">Start Learning &nbsp;›</div>
       </div>
 
       <!-- 右侧：模块卡片 2x2 -->
       <div class="home-right">
         <div class="cards-grid">
-          <div class="module-card" onclick="showPage('basic', document.querySelectorAll('.nav-item')[1])">
+          <div class="module-card" onclick="showPage('basic', document.querySelectorAll('.nav-item')[0])">
             <div class="card-title">基础认知</div>
             <div class="card-desc">了解 AI 的本质、核心概念与5层递进逻辑</div>
           </div>
-          <div class="module-card" onclick="showPage('method', document.querySelectorAll('.nav-item')[2])">
+          <div class="module-card" onclick="showPage('method', document.querySelectorAll('.nav-item')[1])">
             <div class="card-title">工作方法</div>
             <div class="card-desc">Prompt、Skill、Project 与 AI 高效协作的方法论</div>
           </div>
-          <div class="module-card" onclick="showPage('template', document.querySelectorAll('.nav-item')[3])">
+          <div class="module-card" onclick="showPage('template', document.querySelectorAll('.nav-item')[2])">
             <div class="card-title">Prompt/Skill库</div>
             <div class="card-desc">常用场景即用模板，可复用 Skill 资源一键获取</div>
           </div>
-          <div class="module-card" onclick="showPage('safety', document.querySelectorAll('.nav-item')[4])">
+          <div class="module-card" onclick="showPage('safety', document.querySelectorAll('.nav-item')[3])">
             <div class="card-title">风险安全</div>
             <div class="card-desc">HR 场景的数据安全、合规要点与使用规范</div>
           </div>
@@ -5232,6 +5427,12 @@ ${toneMap[tone] || '自然得体'}
     initSearchIndex();
   })();
 </script>
+
+<!-- 主题切换按钮 -->
+<div class="theme-toggle-wrapper">
+  <button class="theme-toggle-btn" id="themeToggleBtn" title="切换模式">&#9788;</button>
+  <div class="theme-toggle-label" id="themeToggleLabel">夜间模式</div>
+</div>
 
 <script>
 (function() {
