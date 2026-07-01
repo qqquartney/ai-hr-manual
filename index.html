@@ -1880,8 +1880,12 @@
           margin: 8px 0;
           font-family: 'Courier New', monospace;
         }
-        .skill-example strong[style*="--accent-g"] {
-          color: rgba(160, 50, 30, 0.95) !important;
+        :root .skill-example strong[style*="--accent-g"],
+        body.theme-night .skill-example strong[style*="--accent-g"] {
+          color: rgba(100, 200, 255, 0.95) !important;
+        }
+        body.theme-eye-care .skill-example strong[style*="--accent-g"] {
+          color: rgba(160, 90, 40, 0.9) !important;
         }
       </style>
 
@@ -3396,7 +3400,7 @@ function copySkill(btn) {
   var textarea = skillBlock.querySelector('.skill-textarea');
   var content = textarea.value.trim();
   
-  if (!content || content === '请在此粘贴 Skill 内容或网页链接') {
+  if (!content || content === '待粘贴 Skill 内容或网页链接') {
     alert('⚠️ Skill内容为空，请先粘贴内容');
     return;
   }
@@ -3641,7 +3645,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </style>
 
       <h3 id="h3-12-Skill-库--即拿即用的-AI-技">📖 Skill 库 — 即拿即用的 AI 技能文件</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px;">每个 Skill 都是一份可复用"AI 使用手册"，复制后粘贴到对话中即可让 AI 按规范工作</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px;">每个 Skill 都是一份可复用"AI 使用手册"，复制或下载后上传到agent中即可使用这个skill</p>
 
       <!-- 分类标签 -->
       <div class="skill-sub-tabs">
@@ -3658,7 +3662,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">结构化会议记录 + 行动项追踪，告别流水账</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3667,7 +3671,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">亮点 / 进展 / 问题 / 计划四段式，轻松交出专业周报</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3676,7 +3680,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">覆盖汇报/请求/跟进/感谢/道歉 5 种场景</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
       </div>
 
@@ -3688,7 +3692,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">从可用性、一致性、可访问性、信息传达四个维度系统评审</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3697,7 +3701,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">Design Token + 组件规范模板，快速产出设计系统文档</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3706,7 +3710,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">反馈聚类 + 严重度评分 + 改进路线图</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
       </div>
 
@@ -3718,7 +3722,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">四维度加权评分体系，输出结构化评估报告</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3727,7 +3731,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">STAR 法则 + 四类问题配比，覆盖技能/行为/情景/文化</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
 
         <div class="skill-block">
@@ -3736,7 +3740,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="skill-copy-btn" onclick="copySkill(this)">📋 复制</button>
           </div>
           <p class="skill-desc">五层递进问题 + 离职原因分类框架，输出组织洞察</p>
-          <textarea class="skill-textarea" readonly>请在此粘贴 Skill 内容或网页链接</textarea>
+          <textarea class="skill-textarea" readonly>待粘贴 Skill 内容或网页链接</textarea>
         </div>
       </div>
 
