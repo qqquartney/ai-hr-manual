@@ -926,8 +926,6 @@
 
       /* ---- 内容区所有 2 列网格 → 1 列 ---- */
       .concept-grid,
-      .ability-grid,
-      .limitation-grid,
       .prompt-compare {
         grid-template-columns: 1fr !important;
       }
@@ -1003,7 +1001,7 @@
 
       /* ---- 表格/代码块横向滚动 ---- */
       pre, code, .prompt-formula, .prompt-example,
-      .concept-desc, .ability-desc, .limitation-desc {
+      .concept-desc {
         overflow-x: auto !important;
         word-break: break-word !important;
       }
@@ -1030,12 +1028,12 @@
 
 <!-- 顶部导航栏 -->
 <div class="topnav">
-  <div class="topnav-brand" style="cursor:pointer;" onclick="showPage('home')">AI Learning Hub
+  <div class="topnav-brand" style="cursor:pointer;" onclick="showPage('home')">AI Learning Hub For HR
   </div>
   <div class="topnav-divider"></div>
   <div class="nav-item" onclick="showPage('basic', this)">AI基础认知</div>
   <div class="nav-item" onclick="showPage('method', this)">AI工作方法</div>
-  <div class="nav-item" onclick="showPage('template', this)">Prompt/Skill库</div>
+  <div class="nav-item" onclick="showPage('template', this)">话术/Prompt/Skill库</div>
   <div class="nav-item" onclick="showPage('safety', this)">AI使用风险与安全</div>
   
   <div class="topnav-utils">
@@ -1060,7 +1058,7 @@
     <div class="home-layout">
       <!-- 左侧：标题区 -->
       <div class="home-left">
-        <div class="home-tag">AI Learning Hub</div>
+        <div class="home-tag">AI Learning Hub For HR</div>
         <div class="home-title">Learn.<br>Explore.<br>Grow with AI.</div>
         <div class="home-desc">探索未来工作方式。</div>
         <div class="home-btn" onclick="showPage('basic', document.querySelectorAll('.nav-item')[0])">Start Learning &nbsp;›</div>
@@ -1078,7 +1076,7 @@
             <div class="card-desc">Prompt、Skill、Project 与 AI 高效协作的方法论</div>
           </div>
           <div class="module-card" onclick="showPage('template', document.querySelectorAll('.nav-item')[2])">
-            <div class="card-title">Prompt/Skill库</div>
+            <div class="card-title">话术/Prompt/Skill库</div>
             <div class="card-desc">常用场景即用模板，可复用 Skill 资源一键获取</div>
           </div>
           <div class="module-card" onclick="showPage('safety', document.querySelectorAll('.nav-item')[3])">
@@ -1100,8 +1098,6 @@
     <div class="tabs">
       <div class="tab-btn active" onclick="showTab('basic','concept',this)"> 基本概念</div>
       <div class="tab-btn" onclick="showTab('basic','layers',this)"> 递进逻辑图解</div>
-      <div class="tab-btn" onclick="showTab('basic','can',this)">✅ AI能做什么</div>
-      <div class="tab-btn" onclick="showTab('basic','cannot',this)">❌ AI不能做什么</div>
     </div>
 
     <div id="basic-concept" class="glass-box active">
@@ -1308,273 +1304,208 @@
     <div id="basic-layers" class="glass-box">
       <h3 id="h3-1-5层递进逻辑框架">5层递进逻辑框架</h3>
       <style>
-        .layers-container {
-          display: flex;
-          gap: 12px;
-          margin-top: 16px;
-          overflow-x: auto;
-          padding-bottom: 12px;
-        }
-        .layer-box {
-          flex: 0 0 calc(20% - 10px);
-          min-width: 160px;
-          background: var(--surface-o);
-          backdrop-filter: blur(8px);
-          border: 1px solid var(--border-nav);
-          border-radius: 12px;
-          padding: 16px 12px;
+        .layers-container-v2 {
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
+          gap: 0;
+          margin-top: 16px;
         }
-        .layer-box.layer1 { border-color: rgba(186,85,211,0.3); }
-        .layer-box.layer2 { border-color: rgba(255,193,7,0.3); }
-        .layer-box.layer3 { border-color: rgba(244,130,130,0.3); }
-        .layer-box.layer4 { border-color: rgba(128,128,128,0.3); }
-        .layer-box.layer5 { border-color: rgba(100,150,200,0.3); }
-        
-        .layer-num {
-          font-size: 11px;
-          color: var(--text-hint);
-          margin-bottom: 8px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+        .layer-row-v2 {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          max-width: 920px;
         }
-        .layer-title {
+        .layer-box-v2 {
+          background: var(--surface-o);
+          backdrop-filter: blur(8px);
+          border: 2px solid transparent;
+          border-radius: 12px;
+          padding: 14px 14px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          flex-shrink: 0;
+        }
+        .layer-box-v2.layer1 { width: 350px; border-color: rgba(186,85,211,0.75); background: rgba(186,85,211,0.08); }
+        .layer-box-v2.layer2 { width: 300px; border-color: rgba(255,193,7,0.75); background: rgba(255,193,7,0.08); }
+        .layer-box-v2.layer3 { width: 250px; border-color: rgba(244,130,130,0.75); background: rgba(244,130,130,0.08); }
+        .layer-box-v2.layer4 { width: 200px; border-color: rgba(128,128,128,0.75); background: rgba(128,128,128,0.08); }
+        .layer-box-v2.layer5 { width: 150px; border-color: rgba(100,150,200,0.75); background: rgba(100,150,200,0.08); }
+
+        .layer-title-v2 {
           font-size: 13px;
           font-weight: 600;
           color: var(--text-primary);
-          margin-bottom: 10px;
+          margin-bottom: 8px;
           line-height: 1.3;
         }
-        .layer-items {
+        .layer-items-v2 {
           font-size: 11px;
           color: var(--text-body);
           line-height: 1.5;
-          flex-grow: 1;
-          margin-bottom: 8px;
         }
-        .layer-items span {
-          display: block;
-          margin-bottom: 4px;
+
+        .core-box-v2 {
+          background: rgba(255,255,255,0.12);
+          backdrop-filter: blur(8px);
+          border: 1.5px solid transparent;
+          border-radius: 12px;
+          padding: 18px 14px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 260px;
         }
-        .layer-core {
-          font-size: 10px;
-          color: var(--text-hint);
+        .core-box-v2.core1 { border-color: rgba(186,85,211,0.7); background: rgba(186,85,211,0.06); }
+        .core-box-v2.core2 { border-color: rgba(255,193,7,0.7); background: rgba(255,193,7,0.06); }
+        .core-box-v2.core3 { border-color: rgba(244,130,130,0.7); background: rgba(244,130,130,0.06); }
+        .core-box-v2.core4 { border-color: rgba(128,128,128,0.7); background: rgba(128,128,128,0.06); }
+        .core-box-v2.core5 { border-color: rgba(100,150,200,0.7); background: rgba(100,150,200,0.06); }
+        .core-title-v2 {
+          font-size: 12px;
+          color: var(--text-primary);
+          font-weight: 500;
+          margin-bottom: 6px;
+        }
+        .core-note-v2 {
+          font-size: 11px;
+          color: var(--text-body);
           font-style: italic;
-          padding-top: 8px;
-          border-top: 1px solid var(--border-table);
+        }
+
+        .layer-arrow-v2 {
+          width: 920px;
+          height: 28px;
+          position: relative;
+          display: block;
+        }
+        .layer-arrow-v2::before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 1.5px;
+          height: 14px;
+          background: #5F5E5A;
+        }
+        .layer-arrow-v2::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: 14px;
+          transform: translateX(-50%);
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid #5F5E5A;
+        }
+
+        @media (max-width: 960px) {
+          .layer-row-v2 {
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+            max-width: 820px;
+            justify-items: center;
+            align-items: center;
+          }
+          .core-box-v2 {
+            position: static;
+            width: 200px;
+            transform: none;
+            justify-self: center;
+          }
+          .layer-arrow-v2 {
+            width: calc(100% - 220px);
+            max-width: 600px;
+            margin: 0 auto;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .layer-row-v2 { display: flex; flex-direction: column; gap: 0; max-width: none; }
+          .layer-box-v2 { width: 100% !important; }
+          .core-box-v2 { position: static; width: 100% !important; transform: none; border: none; background: transparent; padding: 8px 0 0 0; text-align: center; }
+          .layer-arrow-v2 { width: 100%; }
         }
       </style>
-      <div class="layers-container">
-        <div class="layer-box layer1">
-          <div class="layer-num">第1层</div>
-          <div class="layer-title">大脑<br>LLM</div>
-          <div class="layer-items">
-            <span>• GPT、Claude</span>
-            <span>• Gemini</span>
-            <span>• Token、上下文</span>
-            <span>• Multi-modal</span>
-            <span>• 推理模型</span>
+      <div class="layers-container-v2">
+        <div class="layer-row-v2">
+          <div class="layer-box-v2 layer1">
+            <div class="layer-title-v2">第1层：大脑 / LLM</div>
+            <div class="layer-items-v2">GPT · Claude · Gemini · Token · 上下文 · Multi-modal · 推理模型</div>
           </div>
-          <div class="layer-core">核心：基础能力</div>
+          <div class="core-box-v2 core1">
+            <div class="core-title-v2">核心：基础能力</div>
+            <div class="core-note-v2">（可编辑讲解区域）</div>
+          </div>
         </div>
-        <div class="layer-box layer2">
-          <div class="layer-num">第2层</div>
-          <div class="layer-title">沟通<br>方式</div>
-          <div class="layer-items">
-            <span>• GUI（网页）</span>
-            <span>• CLI（命令行）</span>
-            <span>• 桌面版</span>
-            <span>• Prompt</span>
-            <span>• Engineering</span>
+
+        <div class="layer-arrow-v2"></div>
+
+        <div class="layer-row-v2">
+          <div class="layer-box-v2 layer2">
+            <div class="layer-title-v2">第2层：沟通方式</div>
+            <div class="layer-items-v2">GUI（网页） · CLI（命令行） · 桌面版 · Prompt · Engineering</div>
           </div>
-          <div class="layer-core">核心：交互方式</div>
+          <div class="core-box-v2 core2">
+            <div class="core-title-v2">核心：交互方式</div>
+            <div class="core-note-v2">（可编辑讲解区域）</div>
+          </div>
         </div>
-        <div class="layer-box layer3">
-          <div class="layer-num">第3层</div>
-          <div class="layer-title">工具和<br>手册</div>
-          <div class="layer-items">
-            <span>• RAG</span>
-            <span>• MCP</span>
-            <span>• Skills</span>
-            <span>• Harness</span>
-            <span>• 工具整合</span>
+
+        <div class="layer-arrow-v2"></div>
+
+        <div class="layer-row-v2">
+          <div class="layer-box-v2 layer3">
+            <div class="layer-title-v2">第3层：工具和手册</div>
+            <div class="layer-items-v2">RAG · MCP · Skills · Harness · 工具整合</div>
           </div>
-          <div class="layer-core">核心：扩展功能</div>
+          <div class="core-box-v2 core3">
+            <div class="core-title-v2">核心：扩展功能</div>
+            <div class="core-note-v2">（可编辑讲解区域）</div>
+          </div>
         </div>
-        <div class="layer-box layer4">
-          <div class="layer-num">第4层</div>
-          <div class="layer-title">智能体<br>Agent</div>
-          <div class="layer-items">
-            <span>• Claude Code</span>
-            <span>• Codex</span>
-            <span>• Hermes</span>
-            <span>• LLM+Tools</span>
-            <span>• 自主循环</span>
+
+        <div class="layer-arrow-v2"></div>
+
+        <div class="layer-row-v2">
+          <div class="layer-box-v2 layer4">
+            <div class="layer-title-v2">第4层：智能体 / Agent</div>
+            <div class="layer-items-v2">Claude Code · Codex · Hermes · LLM+Tools · 自主循环</div>
           </div>
-          <div class="layer-core">核心：自主执行</div>
+          <div class="core-box-v2 core4">
+            <div class="core-title-v2">核心：自主执行</div>
+            <div class="core-note-v2">（可编辑讲解区域）</div>
+          </div>
         </div>
-        <div class="layer-box layer5">
-          <div class="layer-num">第5层</div>
-          <div class="layer-title">办公<br>应用</div>
-          <div class="layer-items">
-            <span>• IDE (VS Code)</span>
-            <span>• Cursor</span>
-            <span>• Qoder Work</span>
-            <span>• Vibe Coding</span>
-            <span>• 自然语言驱动</span>
+
+        <div class="layer-arrow-v2"></div>
+
+        <div class="layer-row-v2">
+          <div class="layer-box-v2 layer5">
+            <div class="layer-title-v2">第5层：办公应用</div>
+            <div class="layer-items-v2">IDE (VS Code) · Cursor · Qoder Work · Vibe Coding · 自然语言驱动</div>
           </div>
-          <div class="layer-core">核心：实际应用</div>
+          <div class="core-box-v2 core5">
+            <div class="core-title-v2">核心：实际应用</div>
+            <div class="core-note-v2">（可编辑讲解区域）</div>
+          </div>
         </div>
       </div>
       <p style="font-size: 12px; color: var(--text-body2); margin-top: 12px; font-style: italic;">递进关系：基础 → 交互 → 扩展 → 自主 → 应用｜每一层都是下一层的基础，循序渐进学习</p>
     </div>
 
-    <div id="basic-can" class="glass-box">
-      <h3 id="h3-2-AI能做什么">✅ AI能做什么</h3>
-      <style>
-        .ability-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-          margin-top: 12px;
-        }
-        .ability-item {
-          background: rgba(100,200,100,0.08);
-          border: 1px solid rgba(100,200,100,0.2);
-          border-radius: 10px;
-          padding: 14px 16px;
-        }
-        .ability-title {
-          font-weight: 600;
-          color: var(--text-secondary);
-          margin-bottom: 6px;
-          font-size: 13px;
-        }
-        .ability-desc {
-          font-size: 12px;
-          color: var(--text-body);
-          line-height: 1.5;
-        }
-      </style>
-      
-      <div class="ability-grid">
-        <div class="ability-item">
-          <div class="ability-title">📝 文案和内容生成</div>
-          <div class="ability-desc">岗位描述、招聘文案、内部通告、邮件模板等文字创作</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">🔍 信息整理和总结</div>
-          <div class="ability-desc">会议纪要、文档摘要、竞品分析、数据梳理和汇总</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">📊 数据分析和建议</div>
-          <div class="ability-desc">人才画像分析、薪酬数据对标、员工离职风险评估、组织结构分析</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">🎯 方案和流程设计</div>
-          <div class="ability-desc">招聘流程优化、培训方案设计、薪酬体系建议、组织调整方案</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">🤖 候选人初筛和评估</div>
-          <div class="ability-desc">简历初筛、应聘表分析、面试问题设计、候选人匹配度评分</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">🔄 流程自动化</div>
-          <div class="ability-desc">入职资料生成、离职手续清单、定期报表生成、提醒和跟进自动化</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">🎓 培训和解释</div>
-          <div class="ability-desc">政策条款解读、法律风险提示、流程规范说明、知识库搭建</div>
-        </div>
-        <div class="ability-item">
-          <div class="ability-title">💡 创意和头脑风暴</div>
-          <div class="ability-desc">雇主品牌策划、团建活动创意、激励方案、公司文化传播创意</div>
-        </div>
-      </div>
-      
-      <p style="margin-top: 14px; font-size: 12px; color: var(--text-body2);"><strong>核心：</strong> AI的强项是处理<strong>信息密集</strong>的任务，特别是需要阅读、分析、组织、总结、生成文字的工作。</p>
-    </div>
 
-    <div id="basic-cannot" class="glass-box">
-      <h3 id="h3-3-AI不能做什么以及为什么">❌ AI不能做什么（以及为什么）</h3>
-      <style>
-        .limitation-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-          margin-top: 12px;
-        }
-        .limitation-item {
-          background: rgba(200,100,100,0.08);
-          border: 1px solid rgba(200,100,100,0.2);
-          border-radius: 10px;
-          padding: 14px 16px;
-        }
-        .limitation-title {
-          font-weight: 600;
-          color: var(--text-secondary);
-          margin-bottom: 6px;
-          font-size: 13px;
-        }
-        .limitation-desc {
-          font-size: 12px;
-          color: var(--text-body);
-          line-height: 1.5;
-          margin-bottom: 6px;
-        }
-        .limitation-reason {
-          font-size: 11px;
-          color: rgba(200,100,100,0.7);
-          font-style: italic;
-        }
-      </style>
-      
-      <div class="limitation-grid">
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 替代最终决策</div>
-          <div class="limitation-desc">AI提供建议，不能替代人的判断，特别是涉及到人事决定、利益冲突、价值判断的问题</div>
-          <div class="limitation-reason">原因：AI无法完全理解公司的具体背景和人事复杂性</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 保证准确性</div>
-          <div class="limitation-desc">AI可能生成听起来合理但不准确的信息（"幻觉"问题），不能直接用于需要100%准确的场景如薪酬计算</div>
-          <div class="limitation-reason">原因：AI是概率模型，不是确定性的数据库</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 访问实时数据</div>
-          <div class="limitation-desc">AI知识有截止日期，无法自动访问内部系统、HRIS、邮箱等实时信息，除非你提供给它</div>
-          <div class="limitation-reason">原因：出于安全隐私考虑，AI需要显式授权才能访问系统</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 理解非文本信息</div>
-          <div class="limitation-desc">AI无法看到闭路摄像头、观察员工表情、理解办公室政治或人员之间的隐性冲突</div>
-          <div class="limitation-reason">原因：AI只能处理明确告诉它的信息</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 完全独立执行风险操作</div>
-          <div class="limitation-desc">涉及法律风险、隐私、敏感沟通的操作不能完全由AI自主决定，必须由人工审核</div>
-          <div class="limitation-reason">原因：AI无法承担法律或道德责任，出错成本太高</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 保持长期记忆</div>
-          <div class="limitation-desc">每次对话AI都是"新的"，它记不住上周你说过什么，除非通过Skill或Project保存记录</div>
-          <div class="limitation-reason">原因：上下文有长度限制，超过的信息会被遗忘</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 处理极度模糊的需求</div>
-          <div class="limitation-desc">告诉AI"给我一个好的薪酬方案"太模糊，AI需要你明确：预算、职级、地区、行业对标数据等</div>
-          <div class="limitation-reason">原因：AI不能凭空理解隐含的背景信息</div>
-        </div>
-        <div class="limitation-item">
-          <div class="limitation-title">🚫 处理高度主观的判断</div>
-          <div class="limitation-desc">谁的潜力最大、这个人文化匹配度如何，这类高度主观的评判需要多人参与讨论，不能只看AI</div>
-          <div class="limitation-reason">原因：AI输出基于训练数据，可能带有隐性偏见</div>
-        </div>
-      </div>
-      
-      <p style="margin-top: 14px; font-size: 12px; color: var(--text-body2);"><strong>关键认知：</strong> AI的正确使用方式不是"替代人"，而是"增强人"。最佳实践是<strong>人工驱动，AI协助</strong> — 你提出问题和框架，AI帮你快速生成初稿、分析数据、梳理逻辑，最后由人做决策和审核。</p>
-    </div>
+
   </div>
 
   <!-- ===== AI工作方法 ===== -->
@@ -2749,7 +2680,7 @@
       <h3 id="h3-10-常见误区--避免踩坑">🚨 常见误区 — 避免踩坑</h3>
       
       <p style="font-size: 12px; color: var(--text-body); line-height: 1.6; margin-bottom: 12px;">
-        很多人在使用 AI 时，因为不了解 AI 的特性和局限，踩了很多坑。这里列出最常见的 11 个误区，帮你避免重复犯错。
+        很多人在使用 AI 时，因为不了解 AI 的特性和局限，踩了很多坑。这里列出最常见的 13 个误区，帮你避免重复犯错。
       </p>
 
       <style>
@@ -2782,10 +2713,14 @@
         <div class="mistake-title">❌ 误区1：期望 AI 100% 准确</div>
         <div class="mistake-desc">
           很多人会说："AI 告诉我这个薪酬数据，我直接信了。"结果发现数据有误。<br><br>
-          <strong>问题：</strong> AI 会"幻觉"（编造听起来合理但不真实的信息），特别是涉及具体数字时。
+          <strong>问题：</strong> AI 会"幻觉"（编造听起来合理但不真实的信息），特别是涉及具体数字时。AI 会自信地生成看似专业、实则不存在的内容——虚构的薪酬数据、编造的法律条款、杜撰的案例等。<br><br>
+          <strong>🚨 HR场景中幻觉的危害：</strong><br>
+          • 薪酬数据错误：AI 说的市场薪酬可能跟实际有偏差，导致招聘困难<br>
+          • 法律建议错误：AI 可能编造不存在的法律条款，导致公司违规<br>
+          • 政策错误：AI 可能给出不合规的建议（如社保、劳动法相关）
         </div>
         <div class="mistake-solution">
-          ✅ 解决方案：永远把 AI 的输出作为初稿或参考，需要验证的数据（如薪酬、人数）必须自己查证。最佳实践是"AI 加速，人工验证"。
+          ✅ 解决方案：永远把 AI 的输出作为初稿或参考，需要验证的数据（如薪酬、人数）必须自己查证。最佳实践是"AI 加速，人工验证"。涉及数字、法规、政策的内容，要从官方渠道交叉验证。在 Prompt 中明确说"如果你不确定，请说'我不知道'，而不是猜测"，也能有效减少幻觉。
         </div>
       </div>
 
@@ -2923,6 +2858,41 @@
         </div>
       </div>
 
+      <div class="mistake-item">
+        <div class="mistake-title">⚠️ 误区12：忽略 AI 的隐性偏见</div>
+        <div class="mistake-desc">
+          AI 的训练数据来自互联网，其中包含很多不公平的观点和历史偏见。如果你没有显式告诉 AI 你的价值观，它可能默认延续这些偏见。<br><br>
+          <strong>偏见来源：</strong><br>
+          • 训练数据偏见 — 互联网本身就存在性别、年龄、种族等方面的偏见<br>
+          • 历史数据偏见 — 如果你上传的历史招聘数据中某类人群录用率低，AI 可能学到这个模式<br>
+          • 表述偏见 — AI 学到的刻板印象（如"年轻人跳槽率高"、"女性可能因生育请假"）<br><br>
+          <strong>后果：</strong> 招聘偏见（歧视某类候选人）、绩效评估偏见（对某些群体评分偏低）、法律风险（公司被告违反反歧视法）
+        </div>
+        <div class="mistake-solution">
+          ✅ 解决方案：<br>
+          • 在 Prompt 中声明价值观："我们遵循反歧视原则，不接受基于性别、年龄、种族的建议"<br>
+          • 避免上传有偏见的历史数据<br>
+          • AI 的关键建议要经多人审核，减少单一视角偏见<br>
+          • 定期检查 AI 建议是否对某个群体不公平
+        </div>
+      </div>
+
+      <div class="mistake-item">
+        <div class="mistake-title">⚠️ 误区13：不做审核，直接使用 AI 输出</div>
+        <div class="mistake-desc">
+          拿到 AI 的输出就直接用，没有人工复核环节。尤其涉及关键业务决策时，这种做法风险极大。<br><br>
+          <strong>正确的认知：</strong> AI 输出 = 草稿，不是最终结论。最终决策权和审核权必须在人。<br><br>
+          <strong>不同风险等级的审核方式：</strong><br>
+          • 低风险（如邮件初稿）→ 快速过一遍，改改措辞就能用<br>
+          • 中风险（如招聘分析、薪酬对标）→ 有经验的 HR 主管详细审核，验证关键数据<br>
+          • 高风险（如人事决定建议、法律咨询）→ 多人复审 + 专业咨询（法务、HR 顾问）<br><br>
+          <strong>⚖️ 责任归属：</strong> 如果因 AI 建议造成问题（如错误的招聘决定、违法的人事处理），法律责任在公司，不在 AI。审核必须严谨。
+        </div>
+        <div class="mistake-solution">
+          ✅ 解决方案：建立分级审核机制。低风险内容快速过，中高风险内容必须经过至少一人复核。涉及法律、合规的，必须咨询专业人士。永远把 AI 当作"参谋"，不是"决策者"。
+        </div>
+      </div>
+
       <div style="margin-top: 20px; background: var(--accent-c); border: 1px solid var(--accent-e); border-radius: 8px; padding: 14px;">
         <p style="font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.6;">
           <strong>🎯 总结：</strong> AI 的最佳使用姿态是"辅助而不替代，加速而不自动，参考而不盲从"。把 AI 当作一个聪明的助手，但最终的决策权和责任权始终在人。
@@ -2931,10 +2901,10 @@
     </div>
   </div>
 
-  <!-- ===== Prompt/Skill库 ===== -->
+  <!-- ===== 话术/Prompt/Skill库 ===== -->
   <div id="page-template" class="page">
     <div class="page-header">
-      <div class="page-title">📚 Prompt / Skill库</div>
+      <div class="page-title">📚 话术/Prompt/Skill库</div>
       <div class="page-sub">即学即用，直接复制到 AI 中开始工作</div>
     </div>
 
@@ -3134,7 +3104,7 @@ const promptTemplatesData = {
           "id": "email_writing",
           "name": "📧 邮件撰写",
           "desc": "根据收件人和场景自动生成得体工作邮件",
-          "template": "你是一位专业的职场沟通顾问，请根据以下信息撰写一封工作邮件。\n\n【邮件信息】\n邮件类型：[汇报/请求/跟进/感谢/道歉/通知]\n收件人角色：[上级/同事/下属/客户/合作伙伴]\n邮件主题：[一句话主题]\n\n【核心内容】\n关键信息：[需要传达的1-3个核心点]\n需要的反馈：[收件人需要做什么/回复什么]\n截止/时间要求：[如有时间要求]\n\n【语气要求】\n正式程度：[正式/半正式/轻松]\n附加要求：[需要特别体现的态度]\n\n请生成一封邮件，包含：\n1. 清晰的主题行\n2. 得体的称呼和开场\n3. 结构化正文（背景 → 核心 → 行动请求）\n4. 恰当的结束语\n5. 签名模板",
+          "template": "你是一位专业的职场沟通顾问，请根据以下信息撰写一封工作邮件。\n\n【邮件信息】\n邮件类型：[外派/审批请求/跟进/HC审批/]\n收件人角色：[上级/同事/下属/客户/合作伙伴]\n邮件主题：[一句话主题]\n\n【核心内容】\n关键信息：[需要传达的1-3个核心点]\n需要的反馈：[收件人需要做什么/回复什么]\n截止/时间要求：[如有时间要求]\n\n【语气要求】\n正式程度：[正式/半正式/轻松/国际化工作沟通]\n附加要求：[需要特别体现的态度]\n\n请生成一封邮件，包含：\n1. 清晰的主题行\n2. 得体的称呼和开场\n3. 结构化正文（背景 → 核心 → 行动请求）\n4. 恰当的结束语\n5. 签名模板",
           "exampleInput": "邮件类型：汇报\n收件人角色：上级\n邮件主题：Q2项目进展汇报\n\n核心信息：\n- 项目已完成80%，预计下周五交付\n- 遇到一个技术难题，已协调技术部支援\n- 需要领导确认预算追加事宜\n\n需要的反馈：请领导回复是否同意追加5万预算\n截止/时间要求：希望周三前得到回复\n\n正式程度：半正式\n附加要求：展现主动解决问题能力"
         },
         {
@@ -4869,7 +4839,6 @@ ${toneMap[tone] || '自然得体'}
     <div class="tabs">
       <div class="tab-btn active" onclick="showTab('safety','data',this)">🔐 数据安全</div>
       <div class="tab-btn" onclick="showTab('safety','compliance',this)">📋 合规性</div>
-      <div class="tab-btn" onclick="showTab('safety','risk',this)">⚡ AI输出风险</div>
       <div class="tab-btn" onclick="showTab('safety','norm',this)">✔️ 使用规范</div>
     </div>
 
@@ -5093,110 +5062,6 @@ ${toneMap[tone] || '自然得体'}
           
           <div style="background: var(--accent-c); border: 1px solid var(--accent-e); border-radius: 6px; padding: 12px; margin-top: 12px;">
             <p style="font-size: 11px; color: var(--text-secondary); margin: 0;"><strong>💡 参考模板：</strong> 可以参考《生成式人工智能服务管理暂行办法》等国家级指南，制定符合公司规模的内部政策。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="safety-risk" class="glass-box">
-      <h3 id="h3-16-AI-输出的风险">⚡ AI 输出的风险</h3>
-      
-      <div style="margin-bottom: 18px;">
-        <h4 id="h4-55-1-幻觉问题--AI编造信息的风险"  style="color: var(--text-primary); margin-bottom: 10px;">1️⃣ 幻觉问题 — AI编造信息的风险</h4>
-        
-        <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>什么是"幻觉"？</strong></p>
-          <p style="font-size: 11px; color: var(--text-body); margin: 0;">AI生成了听起来很真实、很有说服力，但其实不存在或不准确的信息。例如：虚构的薪酬数据、编造的法律条款、杜撰的案例等。</p>
-        </div>
-        
-        <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>🚨 HR场景中幻觉的危害</strong></p>
-          <div style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0;">
-            <div style="margin-bottom: 8px;"><strong>薪酬数据错误</strong>
-            <br>❌ AI说「北京互联网HR的平均薪酬是35k」（其实是40k）
-            <br>→ 结果：按AI的数据制定薪酬策略，导致招聘困难</div>
-            
-            <div style="margin-bottom: 8px;"><strong>法律建议错误</strong>
-            <br>❌ AI说「员工超过3个月未签劳动合同，公司可以解聘」（其实是1个月）
-            <br>→ 结果：公司被告违法解聘，赔偿高额</div>
-            
-            <div style="margin-bottom: 8px;"><strong>政策错误</strong>
-            <br>❌ AI说「五险一金可以不交」
-            <br>→ 结果：公司违反法律</div>
-          </div>
-        </div>
-        
-        <div style="background: var(--success-accent-bg); border-left:3px solid var(--success-accent-border); padding: 12px 14px; border-radius: 6px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>✅ 如何避免幻觉问题</strong></p>
-          <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0; line-height: 1.8;">
-            <li><strong>涉及数据的，必须验证</strong> — AI生成的薪酬数据、法规、统计，都要自己查证或咨询专家</li>
-            <li><strong>提供背景信息</strong> — 告诉AI「你回答时一定要注明信息来源」，减少幻觉</li>
-            <li><strong>设定高要求</strong> — Prompt中明确说「如果你不确定，请说'我不知道'，而不是猜测」</li>
-            <li><strong>多来源交叉验证</strong> — AI的回答跟其他来源不一致时，选择其他来源</li>
-            <li><strong>涉及法律合规的，必须咨询专业人士</strong> — 律师、HR顾问等，不能只依赖AI</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 18px;">
-        <h4 id="h4-56-2-偏见问题--算法隐性偏见的影响"  style="color: var(--text-primary); margin-bottom: 10px;">2️⃣ 偏见问题 — 算法隐性偏见的影响</h4>
-        
-        <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>AI的偏见从哪里来？</strong></p>
-          <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0; line-height: 1.8;">
-            <li><strong>训练数据的偏见</strong> — AI的训练数据来自互联网，互联网上本身就存在很多不公平的观点</li>
-            <li><strong>历史数据的问题</strong> — 如果你上传的招聘历史中，女性或少数族裔的录用率低，AI可能学到这个偏见</li>
-            <li><strong>表述偏见</strong> — AI学到的刻板印象（如「年轻人跳槽率高」「女性员工可能生育会请假」）</li>
-          </ul>
-        </div>
-        
-        <div style="background: var(--danger-accent-bg); border-left:3px solid var(--danger-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>🚨 AI偏见导致的后果</strong></p>
-          <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0;">
-            <li>招聘偏见：倾向于推荐某类背景的候选人，歧视其他人</li>
-            <li>绩效评估偏见：对女性、年长员工、少数族裔的评分偏低</li>
-            <li>薪酬决策偏见：某些群体的加薪幅度被AI建议得偏低</li>
-            <li>法律风险：因为AI的歧视性建议，公司被告违反反歧视法</li>
-          </ul>
-        </div>
-        
-        <div style="background: var(--success-accent-bg); border-left:3px solid var(--success-accent-border); padding: 12px 14px; border-radius: 6px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;"><strong>✅ 防止偏见的措施</strong></p>
-          <ul style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0; line-height: 1.8;">
-            <li><strong>显式声明价值观</strong> — 在Prompt中明确说「我们遵循反歧视原则，不接受基于性别、年龄、种族的建议」</li>
-            <li><strong>避免上传有偏见的数据</strong> — 如果历史招聘数据本身有歧视，先清洗后再用</li>
-            <li><strong>多人复审</strong> — AI的关键建议要经过多个不同背景的人审核，减少单一视角的偏见</li>
-            <li><strong>定期偏见审计</strong> — 定期检查AI的建议是否对某个群体不公平</li>
-            <li><strong>透明度</strong> — 如果AI在招聘、晋升等重要决定中被使用，应该让员工知道，并说明最终决策是人工做的</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 18px;">
-        <h4 id="h4-57-3-人工审核的必要性--AI输出--草稿"  style="color: var(--text-primary); margin-bottom: 10px;">3️⃣ 人工审核的必要性 — AI输出 = 草稿，不是最终结论</h4>
-        
-        <div style="background: var(--surface-n); border: 1px solid var(--border-table); border-radius: 8px; padding: 12px;">
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>正确的认知</strong></p>
-          
-          <div style="background: var(--success-accent-bg); border-left:3px solid var(--success-accent-border); padding: 12px 14px; border-radius: 6px; margin-bottom: 10px;">
-            <p style="font-size: 12px; color: var(--text-secondary); margin: 0;"><strong>AI输出 ≠ 最终答案</strong></p>
-            <p style="font-size: 11px; color: var(--text-body); margin-top: 6px; margin-bottom: 0;">AI的输出应被视为初稿、建议、参考。最终的决策和审核权必须在人。</p>
-          </div>
-          
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;"><strong>不同工作类型的审核要求</strong></p>
-          <div style="font-size: 11px; color: var(--text-body); padding-left: 20px; margin: 0;">
-            <div style="margin-bottom: 8px;"><strong>「低风险」（如邮件初稿）</strong>
-            <br>→ 审核方式：自己快速看一遍，改改措辞就能用</div>
-            
-            <div style="margin-bottom: 8px;"><strong>「中风险」（如招聘分析、薪酬对标）</strong>
-            <br>→ 审核方式：有经验的HR主管详细审核，验证关键数据</div>
-            
-            <div style="margin-bottom: 8px;"><strong>「高风险」（如人事决定建议、法律咨询）</strong>
-            <br>→ 审核方式：多人复审 + 专业咨询（法务、HR顾问）。重要决定需要CEO或董事会批准</div>
-          </div>
-          
-          <div style="background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: 6px; padding: 12px; margin-top: 12px;">
-            <p style="font-size: 11px; color: var(--text-secondary); margin: 0;"><strong>⚖️ 责任归属：</strong> 如果因为AI的建议造成问题（如错误的招聘决定、违法的人事处理），法律责任在公司和决策人，而不在AI。所以审核必须严谨。</p>
           </div>
         </div>
       </div>
@@ -5449,7 +5314,7 @@ ${toneMap[tone] || '自然得体'}
         'home': '首页',
         'basic': 'AI基础认知',
         'method': 'AI工作方法',
-        'template': 'Prompt/Skill模板库',
+        'template': '话术/Prompt/Skill库',
         'safety': 'AI使用风险与安全'
       };
       return titleMap[pageId] || pageId;
